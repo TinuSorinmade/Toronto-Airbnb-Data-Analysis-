@@ -21,5 +21,11 @@ output: html_document
 
 As part of a university coursework project, I assumed the role of a consultant to analyze the Toronto Airbnb market. My objective was to provide data-driven insights to enhance host performance and profitability. By examining an extensive data set, I aimed to uncover trends, patterns, and opportunities within the Toronto Airbnb landscape.
 
+<div class="col-sm-6">
 
+### [Crump Lab: Human Cognition and Performance](https://crumplab.github.io)
+
+<a href = "https://crumplab.github.io">
+![](images/logo.png)
+</a>
 </div>

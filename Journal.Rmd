@@ -123,7 +123,7 @@ invisible(lapply(packages, install_and_load))
 
 ```{r data}
 library(readxl)
-airbnb <- read_excel("Airbnb-Canada.xlsx")
+airbnb <- read_excel("/Users/tinusorinmade/Documents/Airbnb Dataset/Airbnb-Canada.xlsx")
 ```
 
 ### General overview of the data set
