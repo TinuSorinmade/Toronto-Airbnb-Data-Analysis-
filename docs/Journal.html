@@ -12,7 +12,7 @@
 <meta name="author" content="Tinu Sorinmade" />
 
 
-<title>AirBnB Canada Project</title>
+<title>Airbnb Data Analysis Project Overview:</title>
 
 <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -332,9 +332,6 @@ div.tocify {
 <li>
   <a href="Journal.html">Main Analysis</a>
 </li>
-<li>
-  <a href="Links.html">Return to Portfolio</a>
-</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -347,15 +344,13 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">AirBnB Canada Project</h1>
+<h1 class="title toc-ignore">Airbnb Data Analysis Project Overview:</h1>
 <h4 class="author">Tinu Sorinmade</h4>
 
 </div>
 
 
 <p><strong>NOTE:</strong> This files contains scrollable chunks</p>
-<div id="airbnb-data-analysis-project-overview" class="section level1">
-<h1><strong>Airbnb Data Analysis Project Overview:</strong></h1>
 <p>As part of a university coursework project, I assumed the role of a
 consultant to analyze the Toronto Airbnb market. My objective was to
 provide data-driven insights to enhance host performance and
@@ -398,11 +393,10 @@ pre[class] {
 }
 </style>
 <p>______________________________________________________________________________________________________</p>
-</div>
-<div id="data-pre-processing" class="section level1">
-<h1>Data Pre Processing</h1>
+<div id="data-preprocessing" class="section level1">
+<h1>Data Preprocessing:</h1>
 <div id="variable-removal" class="section level3">
-<h3>Variable Removal</h3>
+<h3>Variable Removal:</h3>
 <p>The first step before starting the main data analysis was the data
 pre-processing stage. This step involved filtering out variables that
 were not necessary for the analysis. The variables that I removed fell
@@ -427,7 +421,7 @@ analysis.</p>
 <p>______________________________________________________________________________________________________</p>
 </div>
 <div id="data-transformation" class="section level3">
-<h3>Data Transformation</h3>
+<h3>Data Transformation:</h3>
 <p>Certain variables were transformed to facilitate easier analysis and
 to ensure consistency across the data set. The specific transformations
 were as follows:</p>
@@ -449,7 +443,7 @@ time.</p></li>
 <p>______________________________________________________________________________________________________</p>
 </div>
 <div id="new-variable-construction" class="section level3">
-<h3>New Variable Construction</h3>
+<h3>New Variable Construction:</h3>
 <p>New variables were derived from existing data to enrich the analysis
 and to introduce features that better capture the underlying patterns in
 the data set. The following constructions were made:</p>
@@ -474,7 +468,7 @@ performance.</p></li>
 <p>______________________________________________________________________________________________________</p>
 </div>
 <div id="data-cleaning--outlier-removal" class="section level3">
-<h3>Data Cleaning- Outlier Removal</h3>
+<h3>Data Cleaning- Outlier Removal:</h3>
 <p>After generating the ‘Revenue’ column, it was observed that some
 entries had extreme values, which could potentially skew the analysis.
 These outliers were removed because:</p>
@@ -958,7 +952,7 @@ airbnb %&gt;%
 <p><img src="Journal_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div id="bar-graphs-for-categorical-variables" class="section level3">
-<h3><strong>Bar Graphs for Categorical Variables:</strong></h3>
+<h3>Bar Graphs for Categorical Variables:</h3>
 <p>To visualize the frequency of categories for variables
 like <code>property_type</code>, <code>room_type</code>,
 and <code>neighbourhood_cleansed</code>:</p>
@@ -1003,8 +997,6 @@ airbnb %&gt;%
        y = &quot;Price&quot;) +  # Set y-axis label
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for better readability</code></pre>
 <p><img src="Journal_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p><img
-src="http://127.0.0.1:18919/chunk_output/s/85393379/c2ci8xvoc1637/000012.png" /></p>
 <ul>
 <li><p>The most expensive property type was an ’<strong>entire
 villa’</strong> at almost $1000, followed by the <strong>‘shipping
@@ -1034,7 +1026,7 @@ reviews.</li>
 </ul>
 </div>
 <div id="correlation-matrix" class="section level3">
-<h3>Correlation Matrix</h3>
+<h3>Correlation Matrix:</h3>
 <p>To examine correlations between numerical variables:</p>
 <pre class="r"><code># Select only numerical columns from the Airbnb data
 numerical_data &lt;- airbnb %&gt;%
@@ -1095,7 +1087,7 @@ or larger accommodations might have received more reviews.</p></li>
 </div>
 <div id="distribution-of-review-score-by-superhost-status"
 class="section level3">
-<h3>Distribution of Review Score by Superhost Status</h3>
+<h3>Distribution of Review Score by Superhost Status:</h3>
 <pre class="r"><code># Ensure that the &#39;host_is_superhost&#39; column is treated as categorical data
 # This is important for plotting and analysis
 airbnb$host_is_superhost &lt;- factor(airbnb$host_is_superhost)
@@ -1130,7 +1122,7 @@ reflected in the review scores.</p></li>
 </ul>
 </div>
 <div id="response-rate-by-review-count" class="section level3">
-<h3>Response Rate by Review Count</h3>
+<h3>Response Rate by Review Count:</h3>
 <pre class="r"><code># Create a scatter plot of host_response_rate vs number review_scores_value reviews
 airbnb %&gt;%
   ggplot(aes(x = host_response_rate, y = review_scores_value)) +  # Correct mapping of variables
@@ -1140,10 +1132,10 @@ airbnb %&gt;%
   labs(title = &quot;Review Score vs Host Response Rate&quot;,  # Corrected plot title
        x = &quot;Average Review Score&quot;,  # Corrected x-axis label
        y = &quot;Host Response Rate&quot;)  # Corrected y-axis label</code></pre>
-<p><img src="Journal_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="Journal_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+- There appeared to be a slight positive correlation between review
+scores and host response rate.</p>
 <ul>
-<li>There appeared to be a slight positive correlation between review
-scores and host response rate.</li>
 <li>This suggested that hosts with higher average review scores tended
 to have slightly higher response rates.</li>
 </ul>
@@ -1152,7 +1144,7 @@ to have slightly higher response rates.</li>
 <div id="predictive-modelling" class="section level1">
 <h1>Predictive Modelling:</h1>
 <div id="logistic-model-property-profits" class="section level2">
-<h2><strong>Logistic Model: Property Profits:</strong></h2>
+<h2>Logistic Model: Property Profits:</h2>
 <p><strong>Method Rationale:</strong> The project aimed to provide
 actionable recommendations for Airbnb hosts by predicting whether their
 Canadian properties would meet or exceed the median yearly revenue.
@@ -1164,7 +1156,7 @@ helped identify top performers and offer targeted advice.</p>
 properties would achieve or surpass the median revenue, providing hosts
 with a clear standard to assess and improve performance.</p>
 <div id="calculating-the-yearly-revenue" class="section level3">
-<h3>1) Calculating the Yearly Revenue</h3>
+<h3>1) Calculating the Yearly Revenue:</h3>
 <p>To assess whether a property achieved at least the median yearly
 revenue, I first calculated the estimated annual revenue for each
 property, assuming an 80% booking rate.</p>
@@ -1177,7 +1169,7 @@ comparing properties against the median revenue threshold.</p>
 airbnb_new &lt;- cbind(airbnb, yearly_revenue) # Append the yearly revenue column to a new version fo the airbnb data set</code></pre>
 </div>
 <div id="calculate-median-revenue" class="section level3">
-<h3>2) Calculate Median Revenue</h3>
+<h3>2) Calculate Median Revenue:</h3>
 <p>I computed the median yearly revenue to establish a benchmark for
 performance. Properties were then classified as either achieving the
 median revenue (1) or not (0). This binary classification simplified the
@@ -1194,7 +1186,8 @@ airbnb_new2 &lt;- cbind(airbnb_new, AboveMedianRevenue)</code></pre>
 </div>
 <div id="plotting-current-data-set-probability-abovemedianrevenue"
 class="section level3">
-<h3>3) Plotting Current Data set Probability (“AboveMedianRevenue”)</h3>
+<h3>3) Plotting Current Data set Probability
+(“AboveMedianRevenue”):</h3>
 <p>I used a pie chart to visualize the proportion of properties meeting
 or exceeding the median revenue. This visualization provided a clear
 view of revenue distribution and helped to quickly understand the
@@ -1227,7 +1220,7 @@ plot_ly(df_counts,
 <script type="application/json" data-for="htmlwidget-9812d1ce1ed296c898a5">{"x":{"visdat":{"10d7180f6e80":["function () ","plotlyVisDat"]},"cur_data":"10d7180f6e80","attrs":{"10d7180f6e80":{"labels":{},"values":{},"textinfo":"label+percent","marker":{"colors":["#FF5A5F","#484848"]},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Distribution of Properties by Yearly Revenue","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["0","1"],"values":[4613,4635],"textinfo":"label+percent","marker":{"color":"rgba(31,119,180,1)","colors":["#FF5A5F","#484848"],"line":{"color":"rgba(255,255,255,1)"}},"type":"pie","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="feature-selection" class="section level3">
-<h3>4) Feature Selection</h3>
+<h3>4) Feature Selection:</h3>
 <p>Selecting relevant features ensured that the logistic regression
 model was both accurate and understandable. I focused on variables that
 were likely to influence whether a property achieved the median revenue,
@@ -1239,7 +1232,7 @@ select(AboveMedianRevenue,accommodates,room_type,neighbourhood_cleansed,minimum_
 target &lt;- airbnb_new2$AboveMedianRevenue #define the outcome variable for a predictive model based on revenue</code></pre>
 </div>
 <div id="data-splitting" class="section level3">
-<h3>5) Data Splitting</h3>
+<h3>5) Data Splitting:</h3>
 <p>I split the data set into training and test sets to build and
 evaluate the logistic regression model. The training set was used for
 model development, while the test set assessed the model’s performance
@@ -1250,7 +1243,7 @@ train &lt;- airbnb_new2[trainingSamples, ] #Extracts the training data
 test &lt;- airbnb_new2[-trainingSamples, ] #Extracts the testing data</code></pre>
 </div>
 <div id="constructing-logistic-regression-model" class="section level3">
-<h3>6) Constructing Logistic Regression Model</h3>
+<h3>6) Constructing Logistic Regression Model:</h3>
 <p>Constructing the logistic regression model involved analyzing how
 various factors affected the probability of achieving at least the
 median revenue. This step helped identify significant predictors and
@@ -1585,7 +1578,7 @@ model with our training data.</p></li>
 </ul>
 </div>
 <div id="predicting-logistic-regression-model" class="section level3">
-<h3>7) Predicting Logistic Regression Model</h3>
+<h3>7) Predicting Logistic Regression Model:</h3>
 <p>After building the logistic regression model, I used it to predict
 the probability that properties would achieve at least the median
 revenue. The <code>predict.glm</code> function generated these
@@ -1604,7 +1597,7 @@ predictions_class &lt;- ifelse(predictions &gt; 0.5, 1, 0) #Converts probabiliti
 <div id="plotting-predicting-data-set-probability-abovemedianrevenue"
 class="section level3">
 <h3>8) Plotting Predicting Data set Probability
-(AboveMedianRevenue)</h3>
+(AboveMedianRevenue):</h3>
 <p>To visualize the model’s performance, I created a pie chart showing
 the proportion of properties predicted to be above or below the median
 revenue. This visualization helped in understanding the distribution of
@@ -1634,7 +1627,7 @@ plot_ly(df_counts,
 <script type="application/json" data-for="htmlwidget-9307f0fd2cb6e0dfe14d">{"x":{"visdat":{"30b83c302b1f":["function () ","plotlyVisDat"]},"cur_data":"30b83c302b1f","attrs":{"30b83c302b1f":{"labels":{},"values":{},"textinfo":"label+percent","marker":{"colors":["#FF5A5F","#484848"]},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Distribution of Properties by Yearly Revenue","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["0","1"],"values":[1302,1472],"textinfo":"label+percent","marker":{"color":"rgba(31,119,180,1)","colors":["#FF5A5F","#484848"],"line":{"color":"rgba(255,255,255,1)"}},"type":"pie","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="validation-and-robustness-checks" class="section level3">
-<h3>9) Validation and Robustness checks</h3>
+<h3>9) Validation and Robustness checks:</h3>
 <p>Validation and robustness checks were crucial for assessing how well
 the logistic regression model performed and how accurately it predicted
 whether properties would meet or exceed the median revenue. This step
@@ -1692,7 +1685,7 @@ of predictive performance without bias towards either class.</p></li>
 </div>
 </div>
 <div id="pca-construction-review-score-analysis" class="section level1">
-<h1>PCA Construction: Review Score Analysis</h1>
+<h1>PCA Construction: Review Score Analysis:</h1>
 <p><strong>Method rationale:</strong> The goal was to simplify the data
 set of Airbnb properties in Canada by reducing its dimensionality while
 retaining critical information. PCA helped to identify key variables
@@ -1703,7 +1696,7 @@ recommendations.</p>
 with host acceptance rate strongly correlated with PCA 2 and host is
 superhost in PCA 7.</p>
 <div id="remove-all-categorical-data" class="section level3">
-<h3>1) Remove all categorical data</h3>
+<h3>1) Remove all categorical data:</h3>
 <p>Removing categorical data ensured that the PCA focused on numerical
 features that were crucial for analyzing Airbnb properties, providing a
 clearer picture of what affected performance.</p>
@@ -1846,7 +1839,7 @@ to more reliable insights.</p>
 ##                                            0</code></pre>
 </div>
 <div id="applying-the-pca" class="section level3">
-<h3>3) Applying the PCA</h3>
+<h3>3) Applying the PCA:</h3>
 <p>Applying PCA identified the principal components that explained the
 most variance in the data set. Supplementary variables like revenue and
 review scores provided additional insights into how these factors
@@ -1858,7 +1851,7 @@ mypca &lt;- PCA(X = airbnbPCA, scale.unit = TRUE, ncp = 5, graph = FALSE, quanti
 mypca2 &lt;- PCA(X = airbnbPCA, scale.unit = TRUE, ncp = 5, graph = FALSE, quanti.sup = &quot;review_scores_rating&quot;)</code></pre>
 </div>
 <div id="plot" class="section level3">
-<h3>4) Plot</h3>
+<h3>4) Plot:</h3>
 <p>Creating multiple PCA plots helped in visualizing how different
 principal components related to one another and to the variance
 explained, aiding in a deeper understanding of the factors influencing
@@ -1902,7 +1895,7 @@ print(p1)</code></pre>
 <p><img src="Journal_files/figure-html/plot-8.png" width="672" /></p>
 </div>
 <div id="apply-cos2" class="section level3">
-<h3>5) Apply cos2</h3>
+<h3>5) Apply cos2:</h3>
 <p>Using <code>cos2</code> values helped in evaluating which variables
 were most influential in the principal components, providing insights
 into the factors that were most significant for Airbnb properties in
@@ -1919,7 +1912,7 @@ fviz_pca_var(mypca2, col.var = &quot;cos2&quot;,  # Color variables by cos2
 <p><img src="Journal_files/figure-html/unnamed-chunk-10-2.png" width="672" /></p>
 </div>
 <div id="validation-checking-variance" class="section level3">
-<h3>6) Validation/ Checking variance</h3>
+<h3>6) Validation/ Checking variance:</h3>
 <p>Checking the variance explained by each principal component validated
 the PCA results and ensured that the analysis accurately captured the
 key factors influencing Airbnb properties.</p>
@@ -2015,7 +2008,7 @@ more valid.</p></li>
 </div>
 </div>
 <div id="regression-tree-review-score-analysis" class="section level1">
-<h1>Regression Tree: Review Score Analysis</h1>
+<h1>Regression Tree: Review Score Analysis:</h1>
 <p><strong>Model Rationale:</strong> These trees allowed us to visualize
 how different predictor variables affected the overall review rating
 (target variable) and how interactions between variables could influence
@@ -2070,9 +2063,6 @@ plot(tree4, type = &quot;simple&quot;)</code></pre>
 tree5 &lt;- ctree(formula5, data = df1_modified, control = ctree_control(mincriterion = 0.975, maxdepth = 5))
 plot(tree5, type = &quot;simple&quot;)</code></pre>
 <p><img src="Journal_files/figure-html/unnamed-chunk-12-5.png" width="672" /></p>
-<p>The mean squared error (MSE) of 0.1326, averaged from the two random
-sampling evaluations, indicated that the model demonstrated consistent
-and effective predictive performance across different data splits.</p>
 <pre class="r"><code># Train and Evaluate Random Forest Model
 # Create a copy of the cleaned dataset
 df_1 &lt;- df1_modified  
@@ -2154,6 +2144,9 @@ predict_error_2 &lt;- mean(squared_error_2)
 mean_squared_error &lt;- (predict_error_1 + predict_error_2) / 2
 mean_squared_error</code></pre>
 <pre><code>## [1] 0.1326454</code></pre>
+<p>The mean squared error (MSE) of 0.1326, averaged from the two random
+sampling evaluations, indicated that the model demonstrated consistent
+and effective predictive performance across different data splits.</p>
 <pre class="r"><code>### The cross validation code has been borrowed and personalised from the the following site:
 ### https://gist.github.com/bhoung/11237681
 cross_valid_randomForest_function &lt;- function(df, formula, k) {
@@ -2192,8 +2185,9 @@ print(mean_error)</code></pre>
 0.1335 from the 5-fold cross-validation, suggested a reasonably good fit
 to the data, with predicted values closely aligning with actual ratings
 on average.</p>
-<div id="avoiding-multicollinearity" class="section level2">
-<h2>Avoiding <strong>Multicollinearity</strong></h2>
+</div>
+<div id="avoiding-multicollinearity" class="section level1">
+<h1>Avoiding Multicollinearity:</h1>
 <p>Multicollinearity arises when two or more independent variables in a
 regression model are highly correlated with each other. This
 complication can affect the model’s performance and make the
@@ -2209,11 +2203,10 @@ reduce the potential for multicollinearity (for example, the “revenue”
 variable was excluded).</p></li>
 </ul>
 </div>
-</div>
 <div id="recommendations" class="section level1">
 <h1>Recommendations:</h1>
-<div id="for-hosts" class="section level2">
-<h2>For Hosts:</h2>
+<div id="for-hosts" class="section level3">
+<h3>For Hosts:</h3>
 <ol style="list-style-type: decimal">
 <li><p><strong>Opt for Full Listings:</strong> Offering entire home or
 apartment listings tended to yield higher review scores. Analysis
@@ -2234,8 +2227,8 @@ responses within an hour were associated with the highest average review
 scores, underscoring the importance of quick communication.</p></li>
 </ol>
 </div>
-<div id="for-airbnb" class="section level2">
-<h2>For Airbnb:</h2>
+<div id="for-airbnb" class="section level3">
+<h3>For Airbnb:</h3>
 <ol style="list-style-type: decimal">
 <li><strong>Implement a Review Incentive Program:</strong> The Airbnb
 management team could consider introducing a reward system to encourage

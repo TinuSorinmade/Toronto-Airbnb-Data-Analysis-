@@ -46,9 +46,10 @@ pre[class] {
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-# Data Pre Processing
+# Data Preprocessing:
 
-### Variable Removal
+
+### Variable Removal:
 
 The first step before starting the main data analysis was the data pre-processing stage. This step involved filtering out variables that were not necessary for the analysis. The variables that I removed fell into one of the following categories:
 
@@ -60,7 +61,7 @@ The original data set contained over **20,000 records**, which were reduced to *
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-### Data Transformation
+### Data Transformation:
 
 Certain variables were transformed to facilitate easier analysis and to ensure consistency across the data set. The specific transformations were as follows:
 
@@ -72,7 +73,7 @@ Certain variables were transformed to facilitate easier analysis and to ensure c
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-### New Variable Construction
+### New Variable Construction:
 
 New variables were derived from existing data to enrich the analysis and to introduce features that better capture the underlying patterns in the data set. The following constructions were made:
 
@@ -84,7 +85,7 @@ New variables were derived from existing data to enrich the analysis and to intr
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-### Data Cleaning- Outlier Removal
+### Data Cleaning- Outlier Removal:
 
 After generating the 'Revenue' column, it was observed that some entries had extreme values, which could potentially skew the analysis. These outliers were removed because:
 
@@ -177,7 +178,7 @@ airbnb %>%
 
 ```
 
-### **Bar Graphs for Categorical Variables:**
+### Bar Graphs for Categorical Variables:
 
 To visualize the frequency of categories for variables like `property_type`, `room_type`, and `neighbourhood_cleansed`:
 
@@ -218,6 +219,7 @@ airbnb %>%
        y = "Price") +  # Set y-axis label
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for better readability
 ```
+
 -   The most expensive property type was an '**entire villa'** at almost \$1000, followed by the **'shipping container'**.
 
 -   The prices ranged from **\$1000** to **\$35**, with the lowest being for a shared room in a home
@@ -241,7 +243,7 @@ airbnb %>%
 
 -   This plot revealed that the lower the price the higher the number of reviews.
 
-### Correlation Matrix
+### Correlation Matrix:
 
 To examine correlations between numerical variables:
 
@@ -288,7 +290,7 @@ ggplot(cor_data, aes(Var1, Var2, fill = Freq)) +  # Set aesthetics for variables
 
 -   **Listing and Review Counts:** The number of reviews had a modest positive correlation with the number of beds (0.32) and the accommodation capacity (0.43), suggesting that listings with more beds or larger accommodations might have received more reviews.
 
-### Distribution of Review Score by Superhost Status
+### Distribution of Review Score by Superhost Status:
 
 ```{r}
 # Ensure that the 'host_is_superhost' column is treated as categorical data
@@ -320,7 +322,7 @@ ggplot(long_data, aes(x = value, fill = host_is_superhost)) +  # Set data and ae
 
 -   This suggested that the super-host status, which Airbnb awarded based on factors like response rate, number of bookings, and ratings, might have correlated with guests having a better experience, as reflected in the review scores.
 
-### Response Rate by Review Count
+### Response Rate by Review Count:
 
 ```{r}
 # Create a scatter plot of host_response_rate vs number review_scores_value reviews
@@ -340,13 +342,13 @@ airbnb %>%
 
 # Predictive Modelling:
 
-## **Logistic Model: Property Profits:**
+## Logistic Model: Property Profits:
 
 **Method Rationale:** The project aimed to provide actionable recommendations for Airbnb hosts by predicting whether their Canadian properties would meet or exceed the median yearly revenue. Using the median as a benchmark simplified analysis with a clear performance threshold, allowing for straightforward classification into high-performing or below-median properties. This binary classification helped identify top performers and offer targeted advice.
 
 **Results:** The model estimated that 53.1% of properties would achieve or surpass the median revenue, providing hosts with a clear standard to assess and improve performance.
 
-### 1) Calculating the Yearly Revenue
+### 1) Calculating the Yearly Revenue:
 
 To assess whether a property achieved at least the median yearly revenue, I first calculated the estimated annual revenue for each property, assuming an 80% booking rate.
 
@@ -357,7 +359,7 @@ yearly_revenue <- (0.8 * airbnb$availability_365) * airbnb$price # Calculate yea
 airbnb_new <- cbind(airbnb, yearly_revenue) # Append the yearly revenue column to a new version fo the airbnb data set
 ```
 
-### 2) Calculate Median Revenue
+### 2) Calculate Median Revenue:
 
 I computed the median yearly revenue to establish a benchmark for performance. Properties were then classified as either achieving the median revenue (1) or not (0). This binary classification simplified the analysis and prepared the data set for logistic regression modeling.
 
@@ -374,7 +376,7 @@ airbnb_new2 <- cbind(airbnb_new, AboveMedianRevenue)
 
 ```
 
-### 3) Plotting Current Data set Probability ("AboveMedianRevenue")
+### 3) Plotting Current Data set Probability ("AboveMedianRevenue"):
 
 I used a pie chart to visualize the proportion of properties meeting or exceeding the median revenue. This visualization provided a clear view of revenue distribution and helped to quickly understand the performance of properties relative to the benchmark.
 
@@ -407,7 +409,7 @@ plot_ly(df_counts,
 
 ```
 
-### 4) Feature Selection
+### 4) Feature Selection:
 
 Selecting relevant features ensured that the logistic regression model was both accurate and understandable. I focused on variables that were likely to influence whether a property achieved the median revenue, refining the data set for effective modeling. This step used insights from the correlation matrix created in the data exploration stage.
 
@@ -419,7 +421,7 @@ target <- airbnb_new2$AboveMedianRevenue #define the outcome variable for a pred
 
 ```
 
-### 5) Data Splitting
+### 5) Data Splitting:
 
 I split the data set into training and test sets to build and evaluate the logistic regression model. The training set was used for model development, while the test set assessed the model's performance on unseen data, ensuring reliable evaluation.
 
@@ -430,7 +432,7 @@ train <- airbnb_new2[trainingSamples, ] #Extracts the training data
 test <- airbnb_new2[-trainingSamples, ] #Extracts the testing data
 ```
 
-### 6) Constructing Logistic Regression Model
+### 6) Constructing Logistic Regression Model:
 
 Constructing the logistic regression model involved analyzing how various factors affected the probability of achieving at least the median revenue. This step helped identify significant predictors and provided insights that could guide property improvements.
 
@@ -447,7 +449,7 @@ modelsum
 
 -   These predictors were then placed in our logistic regression model with our training data.
 
-### 7) Predicting Logistic Regression Model
+### 7) Predicting Logistic Regression Model:
 
 After building the logistic regression model, I used it to predict the probability that properties would achieve at least the median revenue. The `predict.glm` function generated these probabilities for the test data set. To make the predictions actionable, I converted these probabilities into binary outcomes: properties with probabilities above 0.5 were classified as achieving above-median revenue, while those below were classified as below-median revenue.
 
@@ -458,7 +460,7 @@ predictions <- predict.glm(object = model, newdata = test, type = "response") #G
 predictions_class <- ifelse(predictions > 0.5, 1, 0) #Converts probabilities into a binary classification, where values greater than 0.5 indicate above-median revenue.
 ```
 
-### 8) Plotting Predicting Data set Probability (AboveMedianRevenue)
+### 8) Plotting Predicting Data set Probability (AboveMedianRevenue):
 
 To visualize the model's performance, I created a pie chart showing the proportion of properties predicted to be above or below the median revenue. This visualization helped in understanding the distribution of predictions and assessing the model's effectiveness.
 
@@ -486,7 +488,7 @@ plot_ly(df_counts,
          showlegend = TRUE)  # Add a title and show legend 
 ```
 
-### 9) Validation and Robustness checks
+### 9) Validation and Robustness checks:
 
 Validation and robustness checks were crucial for assessing how well the logistic regression model performed and how accurately it predicted whether properties would meet or exceed the median revenue. This step provided insights into the model's effectiveness and helped ensure that the findings were reliable.
 
@@ -507,13 +509,13 @@ A summary of the model's performance:
 
 -   **Balanced Accuracy:** Averaging the sensitivity and specificity, the balanced accuracy was 65%, indicating a moderate level of predictive performance without bias towards either class.
 
-# PCA Construction: Review Score Analysis
+# PCA Construction: Review Score Analysis:
 
 **Method rationale:** The goal was to simplify the data set of Airbnb properties in Canada by reducing its dimensionality while retaining critical information. PCA helped to identify key variables that affected review scores and other metrics, providing insights into factors that drove property performance and informed actionable recommendations.
 
 **Results:** Review variables were well represented, with host acceptance rate strongly correlated with PCA 2 and host is superhost in PCA 7.
 
-### 1) Remove all categorical data
+### 1) Remove all categorical data:
 
 Removing categorical data ensured that the PCA focused on numerical features that were crucial for analyzing Airbnb properties, providing a clearer picture of what affected performance.
 
@@ -545,7 +547,7 @@ Checking for missing data helped maintain the integrity of the PCA analysis by e
 colSums(is.na(airbnbPCA)) #Remove null values
 ```
 
-### 3) Applying the PCA
+### 3) Applying the PCA:
 
 Applying PCA identified the principal components that explained the most variance in the data set. Supplementary variables like revenue and review scores provided additional insights into how these factors related to the principal components.
 
@@ -558,7 +560,7 @@ mypca2 <- PCA(X = airbnbPCA, scale.unit = TRUE, ncp = 5, graph = FALSE, quanti.s
 
 ```
 
-### 4) Plot
+### 4) Plot:
 
 Creating multiple PCA plots helped in visualizing how different principal components related to one another and to the variance explained, aiding in a deeper understanding of the factors influencing property performance.
 
@@ -595,7 +597,7 @@ print(p2.3)
 
 ```
 
-### 5) Apply cos2
+### 5) Apply cos2:
 
 Using `cos2` values helped in evaluating which variables were most influential in the principal components, providing insights into the factors that were most significant for Airbnb properties in Canada.
 
@@ -612,7 +614,7 @@ fviz_pca_var(mypca2, col.var = "cos2",  # Color variables by cos2
 
 ```
 
-### 6) Validation/ Checking variance
+### 6) Validation/ Checking variance:
 
 Checking the variance explained by each principal component validated the PCA results and ensured that the analysis accurately captured the key factors influencing Airbnb properties.
 
@@ -633,7 +635,7 @@ mypca2$eig
 
 -   Because the percentage of variance explained was quite low, I had to increase the number of dimensions considered to make our conclusions more valid.
 
-# Regression Tree: Review Score Analysis
+# Regression Tree: Review Score Analysis:
 
 **Model Rationale:** These trees allowed us to visualize how different predictor variables affected the overall review rating (target variable) and how interactions between variables could influence the target variable. By examining the tree structures, I identified key factors such as host characteristics, location, and property features that were significant predictors of review scores. This analysis helped in understanding the drivers behind review ratings and provided actionable insights for Airbnb hosts to improve their listings and performance. Additionally, the trees' ability to handle complex interactions between variables made them a robust tool for exploring and interpreting the data set in a meaningful way.
 
@@ -779,7 +781,7 @@ print(mean_error)
 
 The model's performance, indicated by the mean squared error (MSE) of 0.1335 from the 5-fold cross-validation, suggested a reasonably good fit to the data, with predicted values closely aligning with actual ratings on average.
 
-## Avoiding Multicollinearity
+# Avoiding Multicollinearity:
 
 Multicollinearity arises when two or more independent variables in a regression model are highly correlated with each other. This complication can affect the model's performance and make the interpretation of results more challenging.
 
@@ -791,7 +793,7 @@ Multicollinearity arises when two or more independent variables in a regression 
 
 # Recommendations:
 
-## For Hosts:
+### For Hosts:
 
 1.  **Opt for Full Listings:** Offering entire home or apartment listings tended to yield higher review scores. Analysis indicated that these types of accommodations generally received better feedback compared to individual room offerings.
 
@@ -801,7 +803,7 @@ Multicollinearity arises when two or more independent variables in a regression 
 
 4.  **Prioritize Timely Communication:** Being prompt in responding to guest inquiries was crucial. The analysis revealed that responses within an hour were associated with the highest average review scores, underscoring the importance of quick communication.
 
-## For Airbnb:
+### For Airbnb:
 
 1.  **Implement a Review Incentive Program:** The Airbnb management team could consider introducing a reward system to encourage guests to complete review forms. Based on the success of similar loyalty programs, this could lead to increased guest engagement and more comprehensive feedback (McDarris, 2024).
 
