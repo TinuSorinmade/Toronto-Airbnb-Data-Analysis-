@@ -6,4 +6,6 @@ navbar:
       href: index.html
     - text: "Main Analysis"
       href: Journal.html
+    - text: "Return to Portfolio"
+      href: Links.html     
 output_dir: "docs"
