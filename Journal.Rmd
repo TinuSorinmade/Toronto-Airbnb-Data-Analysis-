@@ -467,29 +467,27 @@ predictions_class <- ifelse(predictions > 0.5, 1, 0) #Converts probabilities int
 To visualize the model's performance, I created a pie chart showing the proportion of properties predicted to be above or below the median revenue. This visualization helped in understanding the distribution of predictions and assessing the model's effectiveness.
 
 ```{r Prediction Plot}
-library(ggplot2)
-library(gganimate)
+# Create frequency table
+predictions_table <- table(predictions_class)
 
-# Sample data for animation
-data_animation <- data.frame(
-  Time = rep(1:5, each = 2),  # Time variable for animation
-  Category = rep(c("Below Median Revenue", "Above Median Revenue"), times = 5),  # Categories
-  Count = c(50, 30, 60, 40, 70, 50, 80, 60, 90, 70)  # Count for each category and time
-)
+# Create a data frame to hold the category (Above/Below Median) and counts
+df_counts <- as.data.frame(predictions_table)
 
-# Create a base ggplot object for the animation
-p <- ggplot(data_animation, aes(x = Category, y = Count, fill = Category)) +
-  geom_bar(stat = 'identity', position = 'dodge') +  # Create bars for each category
-  labs(title = 'Distribution of Properties over Time', x = 'Revenue Classification', y = 'Count') +  # Add labels
-  theme_minimal()  # Use a minimal theme
+# Rename the columns of the data frame for clarity
+colnames(df_counts) <- c("Category", "Count")
 
-# Add animation layers
-p <- p +
-  transition_time(Time) +  # Set the time variable for animation
-  ease_aes('linear')  # Use linear easing for smooth transitions
+# Create an interactive pie chart 
+library(plotly)
 
-# Create and save the animation
-print(p)
+plot_ly(df_counts, 
+        labels = ~Category,  # Set labels for pie chart slices based on "Category" column
+        values = ~Count,    # Set values for pie chart slice sizes based on "Count" column
+        type = 'pie',       # Specify pie chart type
+        textinfo = 'label+percent',  # Show labels and percentages within each slice
+        marker = list(colors = c("#FF5A5F", "#484848")) # Set colors for pie chart slices
+) %>%
+  layout(title = 'Distribution of Properties by Yearly Revenue',
+         showlegend = TRUE)  # Add a title and show legend 
 ```
 
 ### 9) Validation and Robustness checks
