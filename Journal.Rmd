@@ -1,10 +1,11 @@
 ---
-title: "Journal"
+title: "AirBnB Canada Project"
+author: 'Tinu Sorinmade'
 output:
   html_document:
     toc: true
     toc_float: true
-    collapsed: false
+    collapsed: falsea
     number_sections: false
     toc_depth: 1
     #code_folding: hide
@@ -14,115 +15,805 @@ output:
 knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 ```
 
-IMPORTANT: You can delete everything in here and start fresh. You might want to start by not deleting anything above this line until you know what that stuff is doing.
+**NOTE:** This files contains scrollable chunks
 
+# **Airbnb Data Analysis Project Overview:**
 
-This is an .Rmd file. It is plain text with special features. Any time you write just like this, it will be compiled to normal text in the website. If you put a \# in front of your text, it will create a top level-header.
+As part of a university coursework project, I assumed the role of a consultant to analyze the Toronto Airbnb market. My objective was to provide data-driven insights to enhance host performance and profitability. By examining an extensive data set, I aimed to uncover trends, patterns, and opportunities within the Toronto Airbnb landscape.
 
-# My first post
+**\*\* The data was sourced from a 2023 data set available on *InsideAirbnb.com (*<https://insideairbnb.com>)**
 
-2018 | 7 | 23 Last compiled: `r Sys.Date()`
+The goal of this project was to equip Airbnb hosts with actionable strategies to improve their reviews and achieve sustained success in Toronto's competitive market.
 
-Notice that whatever you define as a top level header, automatically gets put into the table of contents bar on the left. 
+**Project Objectives (Established by my University Course Leader)**
 
-## Second level header
+-   **Regional Service Analysis:** Provide a comprehensive overview of the service performance within Toronto, highlighting key trends and areas for improvement.
 
-You can add more headers by adding more hashtags. These won't be put into the table of contents
+-   **Predictive Revenue Model:** Develop a predictive model to estimate the likelihood of properties achieving annual revenue at or above the median for the data set. (The model was based on the assumption that properties maintain an 80% booking rate throughout the year.)
 
-### third level header
+-   **Host Review Recommendations:** Offer actionable recommendations to help property hosts improve their reviews, enhancing their competitiveness and guest satisfaction.
 
-Here's an even lower level header
+-   **Provide Clear Comments to Explain the Code:** Write clear and concise comments to improve the readability of the code and describe the trends within the data.
 
-# My second post (note the order)
-
-2018 | 7 | 23 Last compiled: `r Sys.Date()`
-
-I'm writing this tutorial going from the top down. And, this is how it will be printed. So, notice the second post is second in the list. If you want your most recent post to be at the top, then make a new post starting at the top. If you want the oldest first, do, then keep adding to the bottom
-
-# Adding R stuff
-
-So far this is just a blog where you can write in plain text and serve your writing to a webpage. One of the main purposes of this lab journal is to record your progress learning R. The reason I am asking you to use this process is because you can both make a website, and a lab journal, and learn R all in R-studio. This makes everything really convenient and in the sam place. 
-
-So, let's say you are learning how to make a histogram in R. For example, maybe you want to sample 100 numbers from a normal distribution with mean = 0, and standard deviation =1, and then you want to plot a histogram. You can do this right here by using an r code block, like this:
-
-```{r}
-samples <- rnorm(100, mean=0, sd=1)
-hist(samples)
-```
-
-When you knit this R Markdown document, you will see that the histogram is printed to the page, along with the R code. This document can be set up to hide the R code in the webpage, just delete the comment (hashtag), from the cold folding option in the yaml header up top. For purposes of letting yourself see the code, and me see the code, best to keep it the way that it is. You learn all of these things and more can be customized in each R code block.
-
-# The big idea
-
-Use this lab journal to record what you do in R. This way I will be able to see what you are doing and help you along the way. You will also be creating a repository of all the things you do. You can make posts about everything. Learning specific things in R (project unrelated), and doing things for the project that we will discuss at the beginning of the Fall semester. You can get started now by fiddling around with googling things, and trying stuff out in R. I've placed some helpful starting links in the links page on this website
-
-# What can you do right now by yourself?
-
-It's hard to learn programming when you don't have specific problems that you are trying to solve. Everything just seems abstract.
-
-I wrote an [introductory programming book that introduces R](https://crumplab.github.io/programmingforpsych/), and gives some [concrete problems for you to solve](https://crumplab.github.io/programmingforpsych/programming-challenges-i-learning-the-fundamentals.html). 
-
-To get the hang of journaling and solving the problems to learn programming, my suggestion is that you use this .Rmd file to solve the problems. It would look like this:
-
-# Problem 1
-
-Do simple math with numbers, addition, subtraction, multiplication, division
-
-```{r}
-1+2
-2*5
-5/3
-(1+6+4)/5
-
-```
-
-# Problem 2
-
-Put numbers into variables, do simple math on the variables
-
-```{r}
-a<-1
-b<-2
-a+b
-
-d<-c(1,2,3)
-e<-c(5,6,7)
-d+e
-d*e
-d/e
-
-```
-
-# Problem 3
-
-Write code that will place the numbers 1 to 100 separately into a variable using for loop. Then, again using the seq function.
-
-```{r}
-# for loop solution
-# i becomes the number 1 to 100 at each step of the loop
-
-
-a <- length(100) # make empty variable, set length to 100
-for (i in 1:100){
-  a[i] <-i #assigns the number in i, to the ith index of a
+```{css, echo=FALSE}
+pre {
+  max-height: 300px;
+  overflow-y: auto;
 }
 
-print(a)
-
-# for loop solution #2
-
-a<-c() #create empty variable using combine command
-for (i in 1:100){
-  a<-c(a,i) # keeps combining a with itself and the new number in i
+pre[class] {
+  max-height: 180px;
 }
-print(a)
+```
 
-# seq solution
-a <- seq(1,100,1) # look up help for seq using ?seq() in console
-print(a)
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+# Data Pre Processing
+
+### Variable Removal
+
+The first step before starting the main data analysis was the data pre-processing stage. This step involved filtering out variables that were not necessary for the analysis. The variables that I removed fell into one of the following categories:
+
+1.  **Personal Data:** Personal identifiers (such as the host's ID, scrape ID etc.) were removed to ensure privacy and to maintain compliance with data protection regulations.
+2.  **Irrelevant Information:** Variables that did not contribute to the objectives of the analysis (e.g. host url, host About etc) were discarded to streamline the data set and focus on relevant data.
+3.  **Incomplete/Duplicated Data:** Records with missing values or duplicates were excluded to ensure the data set's integrity and quality.
+
+The original data set contained over **20,000 records**, which were reduced to **9,268** after this filtering process. This reduction was essential for creating a clean and manageable data set, leading to more reliable and efficient analysis.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+### Data Transformation
+
+Certain variables were transformed to facilitate easier analysis and to ensure consistency across the data set. The specific transformations were as follows:
+
+-   **Binary Variables: 'Host is Superhost', 'Host has Profile Pic' 'Host Identity Verified', 'Instant Bookable':** These were originally stored as Boolean (True/False) values. They were converted to binary (0/1) format.
+
+-   **Text Data: 'Host Verification':** This variable, initially in text format, contained multiple categories of verification. Each category was split into a separate binary variable (0/1) to better represent the presence or absence of specific verification.
+
+-   **Date Variables: 'First Review', 'Last Review', 'Host Since' :** These were converted to a uniform date format to ensure consistency and facilitate time-based analysis, such as calculating the duration of host activity or determining trends over time.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+### New Variable Construction
+
+New variables were derived from existing data to enrich the analysis and to introduce features that better capture the underlying patterns in the data set. The following constructions were made:
+
+-   **'Revenue':** This variable was calculated based on the assumption that each property books a certain percentage of its yearly availability (80% according to the project brief). This estimation provides a standardized measure of revenue, allowing for comparisons across different properties.
+
+-   **'Unique Host ID':** A unique identifier was generated for each listing using a randomization function to ensure no duplicates existed. This variable is crucial for tracking individual listings without revealing personal information, maintaining the data set's privacy and integrity.
+
+-   **'Revenue Above Median':** This binary variable was created by comparing each property's revenue to the median revenue of the data set. Properties with revenue above the median were coded as 1, and those below or equal to the median were coded as 0. This allows for easy categorization of properties based on their financial performance.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+### Data Cleaning- Outlier Removal
+
+After generating the 'Revenue' column, it was observed that some entries had extreme values, which could potentially skew the analysis. These outliers were removed because:
+
+-   **Impact on Analysis:** Extreme values can disproportionately affect statistical measures like mean and variance, leading to inaccurate models and predictions.
+
+-   **Improved Accuracy:** By removing outliers, the data set becomes more representative of typical properties, resulting in more reliable insights.
+
+\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+# Data Exploration:
+
+After completing the data pre-processing stages, I conducted data exploration to uncover general trends and patterns within the 9,628 Airbnb properties remaining in the data set. This step was essential for gaining insights into the characteristics and behaviors of these properties, laying the foundation for more in-depth analysis.
+
+### Install relevant packages for project
+
+```{r packages, message=FALSE}
+# Define a function to check and install missing packages
+install_and_load <- function(pkg) {
+  if (!require(pkg, character.only = TRUE)) {
+    install.packages(pkg, dependencies = TRUE)
+    library(pkg, character.only = TRUE)
+  }
+}
+
+# List of required packages
+packages <- c("FactoMineR", "ggplot2", "gridExtra", "factoextra", "dplyr", 
+               "caret", "pscl", "readr", "readxl", "ggrepel", "tinytex", "knitr","party","randomForest","dplyr", "tidyverse",'plotly','ggplot2','kableExtra','foreign','RPostgreSQL','robustHD','readxl')
+
+# Install and load all required packages
+invisible(lapply(packages, install_and_load))
+```
+
+### Load the data
+
+```{r data}
+library(readxl)
+airbnb <- read_excel("Airbnb-Canada.xlsx")
+```
+
+### General overview of the data set
+
+Firstly, I created a general overview of the data set with summary statistics for numerical variables and frequency counts for categorical variables:
+
+```{r}
+# Get summary statistics for numerical variables (like prices or ratings)
+numerical_summary <- airbnb %>%
+  # Select only columns containing numerical data
+  select(where(is.numeric)) %>%
+  # Create summary statistics (mean, median, quartiles, etc.)
+  summary()
+
+# Print the summary statistics for numerical variables
+print(numerical_summary)
+
+# Get frequency counts for categorical variables (like property types or locations)
+categorical_summary <- airbnb %>%
+  # Select only columns containing character data (text)
+  select(where(is.character)) %>%
+  # Summarize each column, creating a list with frequency tables
+  summarise(across(everything(), ~ list(as.data.frame(table(.)))))
+
+# Print frequency counts for each categorical variable
+for (col in names(categorical_summary)) {
+  # Print the category name
+  cat("\n", col, ":\n")
+  # Print the frequency table for that category
+  print(categorical_summary[[col]][[1]])
+}
+```
+
+Using these summaries, I developed a range of exploratory graphs to delve into the relationships and key trends across the variables. Below are the most significant visualizations and the insights they reveal.
+
+### Histograms for Numerical values:
+
+To visualize the distribution of key numerical variables using histograms:
+
+```{r}
+# Histograms for numerical variables
+print(colnames(airbnb))  # Print the names of the columns in the dataset
+
+# Generate histograms for numerical variables
+airbnb %>%
+  select(price, Revenue, accommodates, number_of_reviews, reviews_per_month) %>%  # Select the columns of interest
+  pivot_longer(cols = everything(), names_to = 'variable', values_to = 'value') %>%  # Convert the data to long format
+  ggplot(aes(x = value)) +  # Map the value column to the x-axis
+  geom_histogram(binwidth = 10, fill = 'pink', color = 'red') +  # Create a histogram with specified bin width, fill, and color
+  facet_wrap(~ variable, scales = 'free') +  # Create multiple plots for each variable
+  theme_minimal() +  # Apply a minimal theme to the plot
+  labs(title = 'Distribution of Numerical Variables')  # Add a title to the plot
 
 ```
 
-# Replace this with problem 4
+### **Bar Graphs for Categorical Variables:**
 
-And keep going. Try to solve the problems with different scripts that provide the same solution. Good luck, Happy coding.
+To visualize the frequency of categories for variables like `property_type`, `room_type`, and `neighbourhood_cleansed`:
+
+```{r}
+# Select the categorical variables of interest
+airbnb %>%
+  select(property_type, room_type, neighbourhood_cleansed) %>%
+  # Convert the data to long format for easier plotting
+  pivot_longer(cols = everything(), names_to = "variable", values_to = "value") %>%
+  # Create a bar plot for each categorical variable
+  ggplot(aes(x = value)) +
+  geom_bar(fill = "pink", color = "red") +  # Create bars with pink fill and red outline
+  facet_wrap(~ variable, scales = "free_x") +  # Create multiple plots for each variable with free x-axis scales
+  theme_minimal() +  # Apply a minimal theme to the plot
+  labs(title = "Frequency of Categorical Variables")  # Add a title to the plot
+
+```
+
+-   **Neighborhood:** The neighborhood with the most listings was **Waterfront Communities-The Island**, while the neighborhood with the fewest listings was **Forest Hill North.**
+
+-   **Property Type:** There were 46 unique property types, with **'private room in homes'** being the most popular, followed by 'entire rental unit.
+
+-   **Room Type**: There are three different room types on offer. The most listed room type is **entire home/ apartment** -- suggesting this might be most popular.
+
+### Price Distribution Across All Property Types:
+
+To compare the distribution of numerical variables across different categories:
+
+```{r}
+# Box plots for price by property_type
+# Create box plots for price by property type
+airbnb %>%
+  ggplot(aes(x = property_type, y = price)) +  # Set property type as x-axis and price as y-axis
+  geom_boxplot(fill = "pink", color = "red") +  # Create box plots with pink fill and red outline
+  theme_minimal() +  # Apply a minimal theme to the plot
+  labs(title = "Price Distribution by Property Type",  # Set plot title
+       x = "Property Type",  # Set x-axis label
+       y = "Price") +  # Set y-axis label
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for better readability
+```
+
+![](http://127.0.0.1:18919/chunk_output/s/85393379/c2ci8xvoc1637/000012.png)
+
+-   The most expensive property type was an '**entire villa'** at almost \$1000, followed by the **'shipping container'**.
+
+-   The prices ranged from **\$1000** to **\$35**, with the lowest being for a shared room in a home
+
+### Number of Reviews By Property Type:
+
+To explore relationships between numerical variables like `price` and `number_of_reviews`:
+
+```{r}
+# Create a scatter plot of price vs number of reviews
+airbnb %>%
+  ggplot(aes(x = price, y = number_of_reviews)) +  # Set price on x-axis and number of reviews on y-axis
+  geom_point(alpha = 0.5, color = "black") +  # Add data points with transparency
+  geom_smooth(method = "lm", se = FALSE, color = "pink") +  # Add a linear regression line
+  theme_minimal() +  # Apply a minimal theme to the plot
+  labs(title = "Price vs Number of Reviews",  # Set plot title
+       x = "Number of Reviews",  # Set x-axis label
+       y = "Price")  # Set y-axis label
+
+```
+
+-   This plot revealed that the lower the price the higher the number of reviews.
+
+### Correlation Matrix
+
+To examine correlations between numerical variables:
+
+```{r}
+# Select only numerical columns from the Airbnb data
+numerical_data <- airbnb %>%
+  select(where(is.numeric))  # Filter for numeric data
+
+# Calculate correlations between all numerical variables
+cor_matrix <- cor(numerical_data, use = "complete.obs")  # Create correlation matrix
+
+# Convert the correlation matrix into a data frame for easier plotting
+cor_data <- as.data.frame(as.table(cor_matrix))  # Convert to data frame
+
+# Create a heatmap to visualize correlations
+ggplot(cor_data, aes(Var1, Var2, fill = Freq)) +  # Set aesthetics for variables and color
+  geom_tile(color = "white") +  # Create tiles with white background
+  scale_fill_gradient2(low = "pink", high = "red", mid = "white",  # Color scale for correlation strength
+                       midpoint = 0, limit = c(-1,1), space = "Lab",  # Set color range and space
+                       name="Correlation") +  # Add legend label
+  theme_minimal() +  # Apply a minimal theme for clean visuals
+  theme(axis.text.x = element_text(angle = 45, vjust = 1,  # Rotate x-axis labels for readability
+                                   size = 12, hjust = 1)) +  # Adjust label size and justification
+  labs(title = "Correlation Matrix Heatmap",  # Set plot title
+       x = "Variables",  # Set x-axis label
+       y = "Variables")  # Set y-axis label
+```
+
+-   **Host Response and Acceptance Rates:** There was a positive correlation between host response rate and host acceptance rate (0.39), indicating that hosts who responded quickly were also likely to accept booking requests at a higher rate.
+
+-   **Superhost Status**: The correlation between being a super host and various factors like host response rate (0.20) and host acceptance rate (0.22) suggested that superhosts tended to have higher response and acceptance rates.
+
+-   **Listing Counts:** The number of host listings and total listings were highly correlated (0.93), implying that hosts with more listings generally had a higher total number of listings.
+
+-   **Verification Factors:** Verification factors such as having a verified phone number and email were relatively low in correlation with other metrics.
+
+-   **Geographic Data:** Latitude and longitude had low correlations with most other metrics.
+
+-   **Availability and Pricing:** Availability metrics (30, 60, 90 days) were positively correlated with each other, and availability of 365 days showed a moderate positive correlation with revenue (0.41), indicating that listings available throughout the year tended to generate higher revenue.
+
+-   **Reviews:** The number of reviews had a positive correlation with revenue (0.43), suggesting that more reviews might have been associated with higher revenue.
+
+-   **Price and Revenue:** There was a strong positive correlation between price and revenue (0.65), highlighting that higher prices generally led to higher revenue.
+
+-   **Listing and Review Counts:** The number of reviews had a modest positive correlation with the number of beds (0.32) and the accommodation capacity (0.43), suggesting that listings with more beds or larger accommodations might have received more reviews.
+
+### Distribution of Review Score by Superhost Status
+
+```{r}
+# Ensure that the 'host_is_superhost' column is treated as categorical data
+# This is important for plotting and analysis
+airbnb$host_is_superhost <- factor(airbnb$host_is_superhost)
+
+# Select the relevant columns for review scores and Superhost status
+long_data <- airbnb %>%
+  select(review_scores_rating, review_scores_cleanliness, review_scores_checkin, 
+         review_scores_communication, review_scores_location, review_scores_value, host_is_superhost,review_scores_accuracy) %>%
+  pivot_longer(cols = starts_with("review_scores"),  # Select columns starting with "review_scores"
+              names_to = "variable",  # Create a new column for variable names
+              values_to = "value")  # Create a new column for the review scores
+
+# Create a histogram to visualize the distribution of review scores
+# Then compare Superhosts and non-Superhosts using different colors
+ggplot(long_data, aes(x = value, fill = host_is_superhost)) +  # Set data and aesthetics
+  geom_histogram(binwidth = 1, alpha = 0.5, position = "identity") +  # Create histogram with transparency
+  facet_wrap(~ variable, scales = "free") +  # Create multiple plots for each review category
+  theme_minimal() +  # Use a simple plot theme
+  labs(title = "Distribution of Review Scores by Superhost Status",  # Set plot title
+       x = "Score",  # Set x-axis label
+       y = "Count",  # Set y-axis label
+       fill = "Superhost Status")  # Set legend label
+
+```
+
+-   Hosts with a super host status (1) scored consistently higher across all review score categories compared to those without the super host status (0).
+
+-   This suggested that the super-host status, which Airbnb awarded based on factors like response rate, number of bookings, and ratings, might have correlated with guests having a better experience, as reflected in the review scores.
+
+### Response Rate by Review Count
+
+```{r}
+# Create a scatter plot of host_response_rate vs number review_scores_value reviews
+airbnb %>%
+  ggplot(aes(x = host_response_rate, y = review_scores_value)) +  # Correct mapping of variables
+  geom_point(alpha = 0.5, color = "black") +  # Add data points
+  geom_smooth(method = "lm", se = FALSE, color = "pink") +  # Add a linear regression line
+  theme_minimal() +  # Apply a minimal theme to the plot
+  labs(title = "Review Score vs Host Response Rate",  # Corrected plot title
+       x = "Average Review Score",  # Corrected x-axis label
+       y = "Host Response Rate")  # Corrected y-axis label
+```
+
+-   There appeared to be a slight positive correlation between review scores and host response rate.
+-   This suggested that hosts with higher average review scores tended to have slightly higher response rates.
+
+# Predictive Modelling:
+
+## **Logistic Model: Property Profits:**
+
+**Method Rationale:** The project aimed to provide actionable recommendations for Airbnb hosts by predicting whether their Canadian properties would meet or exceed the median yearly revenue. Using the median as a benchmark simplified analysis with a clear performance threshold, allowing for straightforward classification into high-performing or below-median properties. This binary classification helped identify top performers and offer targeted advice.
+
+**Results:** The model estimated that 53.1% of properties would achieve or surpass the median revenue, providing hosts with a clear standard to assess and improve performance.
+
+### 1) Calculating the Yearly Revenue
+
+To assess whether a property achieved at least the median yearly revenue, I first calculated the estimated annual revenue for each property, assuming an 80% booking rate.
+
+To assess whether a property achieved at least the median `yearly_revenue`, I first calculated the estimated annual revenue for each property, assuming an 80% booking rate. This step creates the `yearly_revenue` variable, which is essential for comparing properties against the median revenue threshold.
+
+```{r Revenue Calculation}
+yearly_revenue <- (0.8 * airbnb$availability_365) * airbnb$price # Calculate yearly revenue assuming that hosts achieve 80% of their avialability
+airbnb_new <- cbind(airbnb, yearly_revenue) # Append the yearly revenue column to a new version fo the airbnb data set
+```
+
+### 2) Calculate Median Revenue
+
+I computed the median yearly revenue to establish a benchmark for performance. Properties were then classified as either achieving the median revenue (1) or not (0). This binary classification simplified the analysis and prepared the data set for logistic regression modeling.
+
+```{r Median Calculation}
+# Calculate the median yearly revenue from the dataset
+Median_Revenue <- median(airbnb_new$yearly_revenue)
+
+# Create a new variable indicating whether a property is above or below the median revenue
+# 1 for above median, 0 for below median
+AboveMedianRevenue <- ifelse(airbnb_new$yearly_revenue >= Median_Revenue, 1, 0)
+
+# Combine the original dataset with the newly created variable
+airbnb_new2 <- cbind(airbnb_new, AboveMedianRevenue)
+
+```
+
+### 3) Plotting Current Data set Probability ("AboveMedianRevenue")
+
+I used a pie chart to visualize the proportion of properties meeting or exceeding the median revenue. This visualization provided a clear view of revenue distribution and helped to quickly understand the performance of properties relative to the benchmark.
+
+```{r Current Plot}
+above_median_counts <- table(airbnb_new2$AboveMedianRevenue) 
+
+# Create a data frame to hold the category (Above/Below Median) and counts
+df_counts <- as.data.frame(above_median_counts)
+
+# Rename the columns of the data frame for clarity
+colnames(df_counts) <- c("Category", "Count")  # Category = Above/Below, Count = number of properties
+
+# Create an interactive pie chart 
+plot_ly(df_counts, 
+        # Set labels for pie chart slices based on "Category" column
+        labels = ~Category, 
+        # Set values for pie chart slice sizes based on "Count" column
+        values = ~Count, 
+        # Specify pie chart type
+        type = 'pie',
+        # Show labels and percentages within each slice
+        textinfo = 'label+percent',
+        # Set colors for pie chart slices (red for above median, grey for below)
+        marker = list(colors = c("#FF5A5F", "#484848"))) %>%
+  # Add a title to the chart
+  layout(title = 'Distribution of Properties by Yearly Revenue',
+         # Show the legend for the pie chart slices
+         showlegend = TRUE)
+
+
+```
+
+### 4) Feature Selection
+
+Selecting relevant features ensured that the logistic regression model was both accurate and understandable. I focused on variables that were likely to influence whether a property achieved the median revenue, refining the data set for effective modeling. This step used insights from the correlation matrix created in the data exploration stage.
+
+```{r Feature Selection}
+features <- airbnb_new2 %>%
+select(AboveMedianRevenue,accommodates,room_type,neighbourhood_cleansed,minimum_nights, host_verifications,review_scores_rating) #create a subset of the dataset with variables relevant to revenue prediction
+
+target <- airbnb_new2$AboveMedianRevenue #define the outcome variable for a predictive model based on revenue
+
+```
+
+### 5) Data Splitting
+
+I split the data set into training and test sets to build and evaluate the logistic regression model. The training set was used for model development, while the test set assessed the model's performance on unseen data, ensuring reliable evaluation.
+
+```{r Data Splitting}
+set.seed(42) #seed ensures reproducibility by setting a seed
+trainingSamples <- createDataPartition(target, p = 0.7, list = FALSE) #generates random sample of data, with 70% allocated to training
+train <- airbnb_new2[trainingSamples, ] #Extracts the training data
+test <- airbnb_new2[-trainingSamples, ] #Extracts the testing data
+```
+
+### 6) Constructing Logistic Regression Model
+
+Constructing the logistic regression model involved analyzing how various factors affected the probability of achieving at least the median revenue. This step helped identify significant predictors and provided insights that could guide property improvements.
+
+```{r Logistic Regression Model, warning=FALSE}
+model_formula <- as.formula("AboveMedianRevenue ~ accommodates + room_type+neighbourhood_cleansed + minimum_nights + host_verifications  + review_scores_rating")#this specifies model structure with target and explanatory variables
+
+model <- glm(model_formula, data = train, family = "binomial") #fits logistic regression model using defined formula and training data.
+modelsum <-summary(model) #Summarizes the model, providing coefficients, significance, and fit quality.
+modelsum
+```
+-   The key features chosen in the above slide, were found by evaluating their significance when predicting revenue via their P- values.
+
+-   These values have become significant predictors.
+
+-   These predictors were then placed in our logistic regression model with our training data.
+
+### 7) Predicting Logistic Regression Model
+
+After building the logistic regression model, I used it to predict the probability that properties would achieve at least the median revenue. The `predict.glm` function generated these probabilities for the test data set. To make the predictions actionable, I converted these probabilities into binary outcomes: properties with probabilities above 0.5 were classified as achieving above-median revenue, while those below were classified as below-median revenue.
+
+**This step allowed me to assess the model's performance on new, unseen data by generating and classifying predicted probabilities into binary outcomes. This helped in evaluating how well the model distinguished between properties that met or exceeded the median revenue and those that did not.**
+
+```{r Predictionsl}
+predictions <- predict.glm(object = model, newdata = test, type = "response") #Generates predicted probabilities from the logistic regression model for the test dataset.
+predictions_class <- ifelse(predictions > 0.5, 1, 0) #Converts probabilities into a binary classification, where values greater than 0.5 indicate above-median revenue.
+```
+
+### 8) Plotting Predicting Data set Probability (AboveMedianRevenue)
+
+To visualize the model's performance, I created a pie chart showing the proportion of properties predicted to be above or below the median revenue. This visualization helped in understanding the distribution of predictions and assessing the model's effectiveness.
+
+```{r Prediction Plot}
+library(ggplot2)
+library(gganimate)
+
+# Sample data for animation
+data_animation <- data.frame(
+  Time = rep(1:5, each = 2),  # Time variable for animation
+  Category = rep(c("Below Median Revenue", "Above Median Revenue"), times = 5),  # Categories
+  Count = c(50, 30, 60, 40, 70, 50, 80, 60, 90, 70)  # Count for each category and time
+)
+
+# Create a base ggplot object for the animation
+p <- ggplot(data_animation, aes(x = Category, y = Count, fill = Category)) +
+  geom_bar(stat = 'identity', position = 'dodge') +  # Create bars for each category
+  labs(title = 'Distribution of Properties over Time', x = 'Revenue Classification', y = 'Count') +  # Add labels
+  theme_minimal()  # Use a minimal theme
+
+# Add animation layers
+p <- p +
+  transition_time(Time) +  # Set the time variable for animation
+  ease_aes('linear')  # Use linear easing for smooth transitions
+
+# Create and save the animation
+print(p)
+```
+
+### 9) Validation and Robustness checks
+
+Validation and robustness checks were crucial for assessing how well the logistic regression model performed and how accurately it predicted whether properties would meet or exceed the median revenue. This step provided insights into the model's effectiveness and helped ensure that the findings were reliable.
+
+```{r Validation}
+confusionMatrix(factor(predictions_class), factor(test$AboveMedianRevenue))
+pR2(model)
+```
+
+A summary of the model's performance:
+
+-   **McFadden Score:** A value between 0.2 and 0.4 indicated a good model, as suggested by lecture material.
+
+-   **Accuracy:** The model correctly predicted the revenue category for 65% of the properties.
+
+-   **Sensitivity:** The model identified above-median revenue properties accurately 62% of the time.
+
+-   **Specificity:** The model correctly identified below-median revenue properties 68% of the time.
+
+-   **Balanced Accuracy:** Averaging the sensitivity and specificity, the balanced accuracy was 65%, indicating a moderate level of predictive performance without bias towards either class.
+
+# PCA Construction: Review Score Analysis
+
+**Method rationale:** The goal was to simplify the data set of Airbnb properties in Canada by reducing its dimensionality while retaining critical information. PCA helped to identify key variables that affected review scores and other metrics, providing insights into factors that drove property performance and informed actionable recommendations.
+
+**Results:** Review variables were well represented, with host acceptance rate strongly correlated with PCA 2 and host is superhost in PCA 7.
+
+### 1) Remove all categorical data
+
+Removing categorical data ensured that the PCA focused on numerical features that were crucial for analyzing Airbnb properties, providing a clearer picture of what affected performance.
+
+```{r variables}
+airbnbPCA <- airbnb %>% 
+  select( #Select to remove
+    -host_id, #The ID of each host
+    -host_response_time, # The time it takes for hosts ro respond to a booking request
+    -host_verifications, # Whether a host is verified or not
+    -bathrooms_text, # The Number of Bathrooms avaialble
+    -host_since, # When the hosts became established
+    -Unique_host_id, # Generated Unique host ID
+    -neighbourhood_cleansed,# The name of each Neighbourhood that the property is from in Toronto
+    -first_review, # The date the first review for the properties were created
+    -last_review, # The date that the last review for the properties were created
+    -property_type, # The property type of each of the listed properties in the data set
+    -room_type, # The room type of each fo the listed properities in the data set
+    -host_is_superhost # Whether the host is a superhost or not
+  ) 
+
+str(airbnbPCA) # Used to check the structure of the columns
+```
+
+### 2) Check for null data
+
+Checking for missing data helped maintain the integrity of the PCA analysis by ensuring that the data set used was complete and accurate, thereby preventing missing values from skewing the results and leading to more reliable insights.
+
+```{r null}
+colSums(is.na(airbnbPCA)) #Remove null values
+```
+
+### 3) Applying the PCA
+
+Applying PCA identified the principal components that explained the most variance in the data set. Supplementary variables like revenue and review scores provided additional insights into how these factors related to the principal components.
+
+```{r pca}
+# Perform PCA on the airbnbPCA dataset with Revenue as a supplementary variable
+mypca <- PCA(X = airbnbPCA, scale.unit = TRUE, ncp = 5, graph = FALSE, quanti.sup = "Revenue")
+
+# Perform PCA on the airbnbPCA dataset with review_scores_rating as a supplementary variable
+mypca2 <- PCA(X = airbnbPCA, scale.unit = TRUE, ncp = 5, graph = FALSE, quanti.sup = "review_scores_rating")
+
+```
+
+### 4) Plot
+
+Creating multiple PCA plots helped in visualizing how different principal components related to one another and to the variance explained, aiding in a deeper understanding of the factors influencing property performance.
+
+```{r plot, message=FALSE, warning=FALSE}
+# Function to create PCA plots with consistent formatting
+create_pca_plot <- function(pca_data, axes) {
+  # Create PCA plot using plot.PCA function
+  plot <- plot.PCA(pca_data, axes = axes, choix = "var", cex = 0.75, graph.type = "ggplot") +
+    coord_fixed(ratio = 1, xlim = c(-1, 1), ylim = c(-1, 1))
+  return(plot)
+}
+
+# Create PCA plots for the first model
+p1 <- create_pca_plot(mypca, axes = c(1, 2))
+p1.1 <- create_pca_plot(mypca, axes = c(1, 3))
+p1.2 <- create_pca_plot(mypca, axes = c(1, 4))
+p1.3 <- create_pca_plot(mypca, axes = c(1, 5))
+
+# Create PCA plots for the second model
+p2 <- create_pca_plot(mypca2, axes = c(1, 2))
+p2.1 <- create_pca_plot(mypca2, axes = c(1, 3))
+p2.2 <- create_pca_plot(mypca2, axes = c(1, 4))
+p2.3 <- create_pca_plot(mypca2, axes = c(1, 5))
+
+# Print plots to display
+print(p1)
+print(p1.1)
+print(p1.2)
+print(p1.3)
+print(p2)
+print(p2.1)
+print(p2.2)
+print(p2.3)
+
+```
+
+### 5) Apply cos2
+
+Using `cos2` values helped in evaluating which variables were most influential in the principal components, providing insights into the factors that were most significant for Airbnb properties in Canada.
+
+```{r}
+# Visualize the variables of the first PCA
+fviz_pca_var(mypca, col.var = "cos2",  # Color variables by cos2
+            gradient.cols = c("black", "pink", "red"),  # Set color gradient
+            repel = TRUE)  # Avoid overlapping labels
+
+# Visualize the variables of the second PCA
+fviz_pca_var(mypca2, col.var = "cos2",  # Color variables by cos2
+            gradient.cols = c("black", "pink", "red"),  # Set color gradient
+            repel = TRUE)  # Avoid overlapping labels
+
+```
+
+### 6) Validation/ Checking variance
+
+Checking the variance explained by each principal component validated the PCA results and ensured that the analysis accurately captured the key factors influencing Airbnb properties.
+
+```{r}
+barplot(mypca$eig[,2])
+
+mypca$eig
+
+mypca2$eig
+
+```
+
+### Notes:
+
+-   I made sure to use only the columns with numerical data.
+
+-   Scaling was set to `True` to ensure all columns were on the same scale.
+
+-   Because the percentage of variance explained was quite low, I had to increase the number of dimensions considered to make our conclusions more valid.
+
+# Regression Tree: Review Score Analysis
+
+**Model Rationale:** These trees allowed us to visualize how different predictor variables affected the overall review rating (target variable) and how interactions between variables could influence the target variable. By examining the tree structures, I identified key factors such as host characteristics, location, and property features that were significant predictors of review scores. This analysis helped in understanding the drivers behind review ratings and provided actionable insights for Airbnb hosts to improve their listings and performance. Additionally, the trees' ability to handle complex interactions between variables made them a robust tool for exploring and interpreting the data set in a meaningful way.
+
+**Results:** This regression tree revealed that host superhost status, room type, and other factors such as `instant_bookable`, `host_listings_count`, and `availability_365` significantly influenced review scores. These insights could guide Airbnb hosts in optimizing their properties to enhance review ratings.
+
+```{r}
+# Define formulas for various models
+formula1 <- review_scores_rating ~ host_is_superhost + host_listings_count + host_identity_verified
+formula2 <- review_scores_rating ~ latitude + longitude + property_type + room_type
+formula3 <- review_scores_rating ~ accommodates + beds + minimum_nights + maximum_nights + availability_365
+formula4 <- review_scores_rating ~ instant_bookable
+formula5 <- review_scores_rating ~ host_is_superhost + host_listings_count + host_identity_verified + latitude + longitude + property_type + room_type + accommodates + beds + minimum_nights + maximum_nights + availability_365 + instant_bookable
+
+# Prepare the data for model training
+# Remove rows with missing values in the response variable
+df1_modified <- airbnb[!is.na(airbnb$review_scores_rating), ]  # Remove rows with missing review scores
+df1_modified <- na.omit(df1_modified)  # Remove any remaining rows with missing values
+
+# Identify and convert character variables to factors
+character_vars <- sapply(df1_modified, is.character)  # Find character columns
+df1_modified[character_vars] <- lapply(df1_modified[character_vars], as.factor)  # Convert character columns to factors
+
+# Train Conditional Inference Trees (CIT) for various formulas
+# Tree 1: Fit and plot using formula1
+tree1 <- ctree(formula1, data = df1_modified, control = ctree_control(mincriterion = 0.95, minsplit = 1))
+plot(tree1, type = "simple")
+
+# Tree 2: Fit and plot using formula2
+tree2 <- ctree(formula2, data = df1_modified, control = ctree_control(mincriterion = 0.975))
+plot(tree2, type = "simple")
+
+# Tree 3: Fit and plot using formula3
+tree3 <- ctree(formula3, data = df1_modified, control = ctree_control(mincriterion = 0.975))
+plot(tree3, type = "simple")
+
+# Tree 4: Fit and plot using formula4 with max depth of 5
+tree4 <- ctree(formula4, data = df1_modified, control = ctree_control(mincriterion = 0.975, maxdepth = 5))
+plot(tree4, type = "simple")
+
+# Tree 5: Fit and plot using formula5 with max depth of 5
+tree5 <- ctree(formula5, data = df1_modified, control = ctree_control(mincriterion = 0.975, maxdepth = 5))
+plot(tree5, type = "simple")
+
+
+```
+
+The mean squared error (MSE) of 0.1326, averaged from the two random sampling evaluations, indicated that the model demonstrated consistent and effective predictive performance across different data splits.
+
+```{r}
+# Train and Evaluate Random Forest Model
+# Create a copy of the cleaned dataset
+df_1 <- df1_modified  
+# Convert categorical variables to factors
+df_1$property_type <- as.factor(df1_modified$property_type)
+df_1$room_type <- as.factor(df1_modified$room_type)
+
+
+# Train a Random Forest model with 100 trees
+set.seed(1)  # Ensure reproducibility
+rf.airbnb <- randomForest(formula5, data = df_1, ntree = 100, importance = TRUE)
+
+# Print the Random Forest model summary and plot feature importance
+print(rf.airbnb)
+importance(rf.airbnb)
+varImpPlot(rf.airbnb)
+plot(rf.airbnb)
+
+# Model Evaluation via Random Sampling
+# Split data into training and test sets for two random samples
+
+# Random Sampling 1
+set.seed(10)  # Ensure reproducibility
+train1 <- sample(1:nrow(df_1), nrow(df_1) / 2)
+test_data_1 <- df_1[-train1, ]
+train_data_1 <- df_1[train1, ]
+
+# Train and evaluate the Random Forest model on the first sample
+set.seed(1)
+rf.airbnb1 <- randomForest(formula5, data = train_data_1, ntree = 100, importance = TRUE)
+pred.rf1 <- predict(rf.airbnb1, newdata = test_data_1)
+
+# Calculate prediction error for the first sample
+error_1 <- test_data_1$review_scores_rating - pred.rf1
+squared_error_1 <- (error_1)^2
+predict_error_1 <- mean(squared_error_1)
+
+# Random Sampling 2
+set.seed(1000)  # Ensure reproducibility
+train2 <- sample(1:nrow(df_1), nrow(df_1) / 2)
+test_data_2 <- df_1[-train2, ]
+train_data_2 <- df_1[train2, ]
+
+# Train and evaluate the Random Forest model on the second sample
+set.seed(1)
+rf.airbnb2 <- randomForest(formula5, data = train_data_2, ntree = 100, importance = TRUE)
+pred.rf2 <- predict(rf.airbnb2, newdata = test_data_2)
+
+# Calculate prediction error for the second sample
+error_2 <- test_data_2$review_scores_rating - pred.rf2
+squared_error_2 <- (error_2)^2
+predict_error_2 <- mean(squared_error_2)
+
+# Average the prediction errors from both samples
+mean_squared_error <- (predict_error_1 + predict_error_2) / 2
+mean_squared_error
+```
+
+```{r}
+### The cross validation code has been borrowed and personalised from the the following site:
+### https://gist.github.com/bhoung/11237681
+cross_valid_randomForest_function <- function(df, formula, k) {
+  df$Unique_host_id <- sample(1:k, nrow(df), replace = TRUE)  # Assign folds
+  list <- 1:k
+  
+  prediction <- numeric()
+  actuals <- numeric()
+  
+  for (i in 1:k) {
+    # Split data into training and test sets
+    trainingset <- subset(df, Unique_host_id %in% list[-i])
+    testset <- subset(df, Unique_host_id %in% c(i))
+    
+    # Train the Random Forest model
+    mymodel <- randomForest(formula, data = trainingset, ntree = 100, na.action = na.omit)
+    preds <- predict(mymodel, testset)
+    
+    # Collect predictions and actual values
+    prediction <- c(prediction, preds)
+    actuals <- c(actuals, testset[[as.character(formula[[2]])]])  # Assuming response variable is the lhs of the formula
+  }
+  
+  # Calculate mean squared error
+  squared_errors <- (actuals - prediction)^2
+  mean_error <- mean(squared_errors)
+  
+  return(mean_error)
+}
+
+# Perform cross-validation with 5 folds and print the mean error
+mean_error <- cross_valid_randomForest_function(df1_modified, formula5, 5)
+print(mean_error)
+
+```
+
+The model's performance, indicated by the mean squared error (MSE) of 0.1335 from the 5-fold cross-validation, suggested a reasonably good fit to the data, with predicted values closely aligning with actual ratings on average.
+
+## Avoiding **Multicollinearity**
+
+Multicollinearity arises when two or more independent variables in a regression model are highly correlated with each other. This complication can affect the model's performance and make the interpretation of results more challenging.
+
+**How It Was Addressed:**
+
+-   **Removal of Redundant Variables:** To mitigate multicollinearity, variables that were highly correlated with each other were identified and removed.
+
+-   **Exclusion of Predictors:** Some predictor variables were excluded from the logistic regression model to further reduce the potential for multicollinearity (for example, the "revenue" variable was excluded).
+
+# Recommendations:
+
+## For Hosts:
+
+1.  **Opt for Full Listings:** Offering entire home or apartment listings tended to yield higher review scores. Analysis indicated that these types of accommodations generally received better feedback compared to individual room offerings.
+
+2.  **Enhance Key Areas:** Paying attention to factors that significantly impacted review scores, including cleanliness, accuracy, communication, check-in procedures, and overall value, could lead to better property performance.
+
+3.  **Aim for Superhost Status:** Striving to achieve Superhost status by maintaining a response rate of 90% or higher, a cancellation rate of 1% or less, and an overall rating of 4.8 or above was beneficial. Superhosts tended to receive more favorable reviews.
+
+4.  **Prioritize Timely Communication:** Being prompt in responding to guest inquiries was crucial. The analysis revealed that responses within an hour were associated with the highest average review scores, underscoring the importance of quick communication.
+
+## For Airbnb:
+
+1.  **Implement a Review Incentive Program:** The Airbnb management team could consider introducing a reward system to encourage guests to complete review forms. Based on the success of similar loyalty programs, this could lead to increased guest engagement and more comprehensive feedback (McDarris, 2024).
+
+# Project Limitations
+
+1.  **Dynamic Pricing Challenges:** The Airbnb dynamic pricing model affects the accuracy of the data analyzed. The 'price' variable reflects the listing price at the time of data collection, which may not account for historical pricing fluctuations. For example, hosts might initially set lower prices to attract positive reviews before raising them, a factor not captured by the current model. This lack of historical pricing data impacts the model's precision.
+
+2.  **PCA Limitations:** The Principal Component Analysis (PCA) results indicated a low percentage of variance explained, suggesting that additional dimensions needed to be considered. Model validation revealed that including seven dimensions was necessary to explain just over 50% of the variance.

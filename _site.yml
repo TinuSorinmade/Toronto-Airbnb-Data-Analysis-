@@ -1,11 +1,9 @@
-name: "MyLabJournal"
+name: "Airbnb Data Analysis Project Overview"
 navbar:
-  title: "MyLabJournal"
+  title: "Airbnb Data Analysis Project Overview"
   left:
     - text: "Home"
       href: index.html
-    - text: "Journal"
+    - text: "Main Analysis"
       href: Journal.html
-    - text: "Links"
-      href: Links.html
 output_dir: "docs"
