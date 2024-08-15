@@ -18,14 +18,16 @@ output: html_document
 <div class="col-sm-6">
 
 # **Airbnb Data Analysis Project Overview**
+<a href="https://www.airbnb.com">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Airbnb_Logo_B%C3%A9lo.svg/1200px-Airbnb_Logo_B%C3%A9lo.svg.png" alt="Airbnb Logo" style="width: 300px;">
+</a>
 
 As part of a university coursework project, I assumed the role of a consultant to analyze the Toronto Airbnb market. My objective was to provide data-driven insights to enhance host performance and profitability. By examining an extensive data set, I aimed to uncover trends, patterns, and opportunities within the Toronto Airbnb landscape.
 
+
+#### **Link to take you back my other projects:**
+https://tinusorinmade.netlify.app/
+
 <div class="col-sm-6">
 
-### [Crump Lab: Human Cognition and Performance](https://crumplab.github.io)
-
-<a href = "https://crumplab.github.io">
-![](images/logo.png)
-</a>
 </div>

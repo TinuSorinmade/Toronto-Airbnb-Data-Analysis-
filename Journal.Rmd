@@ -1,5 +1,5 @@
 ---
-title: "AirBnB Canada Project"
+title: "Airbnb Data Analysis Project Overview:"
 author: 'Tinu Sorinmade'
 output:
   html_document:
@@ -16,8 +16,6 @@ knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 ```
 
 **NOTE:** This files contains scrollable chunks
-
-# **Airbnb Data Analysis Project Overview:**
 
 As part of a university coursework project, I assumed the role of a consultant to analyze the Toronto Airbnb market. My objective was to provide data-driven insights to enhance host performance and profitability. By examining an extensive data set, I aimed to uncover trends, patterns, and opportunities within the Toronto Airbnb landscape.
 
@@ -220,9 +218,6 @@ airbnb %>%
        y = "Price") +  # Set y-axis label
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for better readability
 ```
-
-![](http://127.0.0.1:18919/chunk_output/s/85393379/c2ci8xvoc1637/000012.png)
-
 -   The most expensive property type was an '**entire villa'** at almost \$1000, followed by the **'shipping container'**.
 
 -   The prices ranged from **\$1000** to **\$35**, with the lowest being for a shared room in a home
@@ -338,9 +333,10 @@ airbnb %>%
        x = "Average Review Score",  # Corrected x-axis label
        y = "Host Response Rate")  # Corrected y-axis label
 ```
-
 -   There appeared to be a slight positive correlation between review scores and host response rate.
+
 -   This suggested that hosts with higher average review scores tended to have slightly higher response rates.
+
 
 # Predictive Modelling:
 
@@ -684,8 +680,6 @@ plot(tree5, type = "simple")
 
 ```
 
-The mean squared error (MSE) of 0.1326, averaged from the two random sampling evaluations, indicated that the model demonstrated consistent and effective predictive performance across different data splits.
-
 ```{r}
 # Train and Evaluate Random Forest Model
 # Create a copy of the cleaned dataset
@@ -744,6 +738,7 @@ predict_error_2 <- mean(squared_error_2)
 mean_squared_error <- (predict_error_1 + predict_error_2) / 2
 mean_squared_error
 ```
+The mean squared error (MSE) of 0.1326, averaged from the two random sampling evaluations, indicated that the model demonstrated consistent and effective predictive performance across different data splits.
 
 ```{r}
 ### The cross validation code has been borrowed and personalised from the the following site:
@@ -784,7 +779,7 @@ print(mean_error)
 
 The model's performance, indicated by the mean squared error (MSE) of 0.1335 from the 5-fold cross-validation, suggested a reasonably good fit to the data, with predicted values closely aligning with actual ratings on average.
 
-## Avoiding **Multicollinearity**
+## Avoiding Multicollinearity
 
 Multicollinearity arises when two or more independent variables in a regression model are highly correlated with each other. This complication can affect the model's performance and make the interpretation of results more challenging.
 

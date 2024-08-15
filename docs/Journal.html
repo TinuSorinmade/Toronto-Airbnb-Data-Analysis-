@@ -70,32 +70,16 @@ if (window.hljs) {
 
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Document</title>
 
-<!-- Import Google Fonts -->
-<style type="text/css">
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
-</style>
 
-<!-- Existing CSS Styles -->
-<style type="text/css">
-/* Apply the Poppins font to the entire page */
-body {
-  font-family: 'Poppins', sans-serif;
-}
-
+<style type = "text/css">
 .main-container {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
 }
 img {
-  max-width: 100%;
+  max-width:100%;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -117,7 +101,7 @@ pre code {
 }
 </style>
 
-<!-- Additional CSS Styles -->
+
 <style type="text/css">
 .dropdown-submenu {
   position: relative;
@@ -157,12 +141,6 @@ pre code {
   border-radius: 6px 0 6px 6px;
 }
 </style>
-</head>
-<body>
-<!-- Your HTML content here -->
-</body>
-</html>
-
 
 <script type="text/javascript">
 // manage active state of menu based on current page
@@ -354,6 +332,9 @@ div.tocify {
 <li>
   <a href="Journal.html">Main Analysis</a>
 </li>
+<li>
+  <a href="Links.html">Return to Portfolio</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -535,7 +516,7 @@ invisible(lapply(packages, install_and_load))</code></pre>
 <div id="load-the-data" class="section level3">
 <h3>Load the data</h3>
 <pre class="r"><code>library(readxl)
-airbnb &lt;- read_excel(&quot;Airbnb-Canada.xlsx&quot;)</code></pre>
+airbnb &lt;- read_excel(&quot;/Users/tinusorinmade/Documents/Airbnb Dataset/Airbnb-Canada.xlsx&quot;)</code></pre>
 </div>
 <div id="general-overview-of-the-data-set" class="section level3">
 <h3>General overview of the data set</h3>
@@ -1147,7 +1128,10 @@ based on factors like response rate, number of bookings, and ratings,
 might have correlated with guests having a better experience, as
 reflected in the review scores.</p></li>
 </ul>
-<pre class="r"><code># Create a scatter plot of price vs number of reviews
+</div>
+<div id="response-rate-by-review-count" class="section level3">
+<h3>Response Rate by Review Count</h3>
+<pre class="r"><code># Create a scatter plot of host_response_rate vs number review_scores_value reviews
 airbnb %&gt;%
   ggplot(aes(x = host_response_rate, y = review_scores_value)) +  # Correct mapping of variables
   geom_point(alpha = 0.5, color = &quot;black&quot;) +  # Add data points
@@ -1625,29 +1609,29 @@ class="section level3">
 the proportion of properties predicted to be above or below the median
 revenue. This visualization helped in understanding the distribution of
 predictions and assessing the model’s effectiveness.</p>
-<pre class="r"><code>library(ggplot2)
-library(gganimate)
+<pre class="r"><code># Create frequency table
+predictions_table &lt;- table(predictions_class)
 
-# Sample data for animation
-data_animation &lt;- data.frame(
-  Time = rep(1:5, each = 2),  # Time variable for animation
-  Category = rep(c(&quot;Below Median Revenue&quot;, &quot;Above Median Revenue&quot;), times = 5),  # Categories
-  Count = c(50, 30, 60, 40, 70, 50, 80, 60, 90, 70)  # Count for each category and time
-)
+# Create a data frame to hold the category (Above/Below Median) and counts
+df_counts &lt;- as.data.frame(predictions_table)
 
-# Create a base ggplot object for the animation
-p &lt;- ggplot(data_animation, aes(x = Category, y = Count, fill = Category)) +
-  geom_bar(stat = &#39;identity&#39;, position = &#39;dodge&#39;) +  # Create bars for each category
-  labs(title = &#39;Distribution of Properties over Time&#39;, x = &#39;Revenue Classification&#39;, y = &#39;Count&#39;) +  # Add labels
-  theme_minimal()  # Use a minimal theme
+# Rename the columns of the data frame for clarity
+colnames(df_counts) &lt;- c(&quot;Category&quot;, &quot;Count&quot;)
 
-# Add animation layers
-p &lt;- p +
-  transition_time(Time) +  # Set the time variable for animation
-  ease_aes(&#39;linear&#39;)  # Use linear easing for smooth transitions
+# Create an interactive pie chart 
+library(plotly)
 
-# Create and save the animation
-print(p)</code></pre>
+plot_ly(df_counts, 
+        labels = ~Category,  # Set labels for pie chart slices based on &quot;Category&quot; column
+        values = ~Count,    # Set values for pie chart slice sizes based on &quot;Count&quot; column
+        type = &#39;pie&#39;,       # Specify pie chart type
+        textinfo = &#39;label+percent&#39;,  # Show labels and percentages within each slice
+        marker = list(colors = c(&quot;#FF5A5F&quot;, &quot;#484848&quot;)) # Set colors for pie chart slices
+) %&gt;%
+  layout(title = &#39;Distribution of Properties by Yearly Revenue&#39;,
+         showlegend = TRUE)  # Add a title and show legend </code></pre>
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-9307f0fd2cb6e0dfe14d" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-9307f0fd2cb6e0dfe14d">{"x":{"visdat":{"30b83c302b1f":["function () ","plotlyVisDat"]},"cur_data":"30b83c302b1f","attrs":{"30b83c302b1f":{"labels":{},"values":{},"textinfo":"label+percent","marker":{"colors":["#FF5A5F","#484848"]},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Distribution of Properties by Yearly Revenue","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["0","1"],"values":[1302,1472],"textinfo":"label+percent","marker":{"color":"rgba(31,119,180,1)","colors":["#FF5A5F","#484848"],"line":{"color":"rgba(255,255,255,1)"}},"type":"pie","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="validation-and-robustness-checks" class="section level3">
 <h3>9) Validation and Robustness checks</h3>
