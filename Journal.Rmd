@@ -15,11 +15,11 @@ output:
 knitr::opts_chunk$set(message=FALSE,warning=FALSE, cache=TRUE)
 ```
 
-**NOTE:** This files contains scrollable chunks
+**NOTE:** This file contains scrollable chunks
 
 As part of a university coursework project, I assumed the role of a consultant to analyze the Toronto Airbnb market. My objective was to provide data-driven insights to enhance host performance and profitability. By examining an extensive data set, I aimed to uncover trends, patterns, and opportunities within the Toronto Airbnb landscape.
 
-**\*\* The data was sourced from a 2023 data set available on *InsideAirbnb.com (*<https://insideairbnb.com>)**
+**\*\* The data used in this analysis was sourced from a 2023 data set available on *InsideAirbnb.com* (<https://insideairbnb.com>)**
 
 The goal of this project was to equip Airbnb hosts with actionable strategies to improve their reviews and achieve sustained success in Toronto's competitive market.
 
@@ -46,7 +46,7 @@ pre[class] {
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
-# Data Preprocessing:
+# Data Pre-processing:
 
 
 ### Variable Removal:
@@ -65,7 +65,7 @@ The original data set contained over **20,000 records**, which were reduced to *
 
 Certain variables were transformed to facilitate easier analysis and to ensure consistency across the data set. The specific transformations were as follows:
 
--   **Binary Variables: 'Host is Superhost', 'Host has Profile Pic' 'Host Identity Verified', 'Instant Bookable':** These were originally stored as Boolean (True/False) values. They were converted to binary (0/1) format.
+- **Binary Variables: 'Host is Superhost', 'Host has Profile Pic', 'Host Identity Verified', 'Instant Bookable':** These were originally stored as Boolean (True/False) values and were converted to binary (0/1) format.
 
 -   **Text Data: 'Host Verification':** This variable, initially in text format, contained multiple categories of verification. Each category was split into a separate binary variable (0/1) to better represent the presence or absence of specific verification.
 
@@ -89,15 +89,15 @@ New variables were derived from existing data to enrich the analysis and to intr
 
 After generating the 'Revenue' column, it was observed that some entries had extreme values, which could potentially skew the analysis. These outliers were removed because:
 
--   **Impact on Analysis:** Extreme values can disproportionately affect statistical measures like mean and variance, leading to inaccurate models and predictions.
-
--   **Improved Accuracy:** By removing outliers, the data set becomes more representative of typical properties, resulting in more reliable insights.
+- **Impact on Analysis:** Extreme values can disproportionately affect statistical measures like mean and variance, leading to inaccurate models and predictions.
+- **Improved Accuracy:** By removing outliers, the data set becomes more representative of typical properties, resulting in more reliable insights.
 
 \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
 # Data Exploration:
 
-After completing the data pre-processing stages, I conducted data exploration to uncover general trends and patterns within the 9,628 Airbnb properties remaining in the data set. This step was essential for gaining insights into the characteristics and behaviors of these properties, laying the foundation for more in-depth analysis.
+After completing the data pre-processing stages, I conducted data exploration to uncover general trends and patterns within the 9,268 Airbnb properties remaining in the data set. This step was essential for gaining insights into the characteristics and behaviors of these properties, laying the foundation for more in-depth analysis.
+
 
 ### Install relevant packages for project
 
@@ -186,14 +186,13 @@ To visualize the frequency of categories for variables like `property_type`, `
 # Select the categorical variables of interest
 airbnb %>%
   select(property_type, room_type, neighbourhood_cleansed) %>%
-  # Convert the data to long format for easier plotting
   pivot_longer(cols = everything(), names_to = "variable", values_to = "value") %>%
-  # Create a bar plot for each categorical variable
   ggplot(aes(x = value)) +
-  geom_bar(fill = "pink", color = "red") +  # Create bars with pink fill and red outline
-  facet_wrap(~ variable, scales = "free_x") +  # Create multiple plots for each variable with free x-axis scales
-  theme_minimal() +  # Apply a minimal theme to the plot
-  labs(title = "Frequency of Categorical Variables")  # Add a title to the plot
+  geom_bar(fill = "pink", color = "red") +
+  facet_wrap(~ variable, scales = "free_x") +
+  theme_minimal() +
+  labs(title = "Frequency of Categorical Variables")
+
 
 ```
 
@@ -208,16 +207,15 @@ airbnb %>%
 To compare the distribution of numerical variables across different categories:
 
 ```{r}
-# Box plots for price by property_type
 # Create box plots for price by property type
 airbnb %>%
-  ggplot(aes(x = property_type, y = price)) +  # Set property type as x-axis and price as y-axis
-  geom_boxplot(fill = "pink", color = "red") +  # Create box plots with pink fill and red outline
-  theme_minimal() +  # Apply a minimal theme to the plot
-  labs(title = "Price Distribution by Property Type",  # Set plot title
-       x = "Property Type",  # Set x-axis label
-       y = "Price") +  # Set y-axis label
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for better readability
+  ggplot(aes(x = property_type, y = price)) +
+  geom_boxplot(fill = "pink", color = "red") +
+  theme_minimal() +
+  labs(title = "Price Distribution by Property Type",
+       x = "Property Type",
+       y = "Price") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 -   The most expensive property type was an '**entire villa'** at almost \$1000, followed by the **'shipping container'**.
@@ -231,14 +229,13 @@ To explore relationships between numerical variables like `price` and `number
 ```{r}
 # Create a scatter plot of price vs number of reviews
 airbnb %>%
-  ggplot(aes(x = price, y = number_of_reviews)) +  # Set price on x-axis and number of reviews on y-axis
-  geom_point(alpha = 0.5, color = "black") +  # Add data points with transparency
-  geom_smooth(method = "lm", se = FALSE, color = "pink") +  # Add a linear regression line
-  theme_minimal() +  # Apply a minimal theme to the plot
-  labs(title = "Price vs Number of Reviews",  # Set plot title
-       x = "Number of Reviews",  # Set x-axis label
-       y = "Price")  # Set y-axis label
-
+  ggplot(aes(x = price, y = number_of_reviews)) +
+  geom_point(alpha = 0.5, color = "black") +
+  geom_smooth(method = "lm", se = FALSE, color = "pink") +
+  theme_minimal() +
+  labs(title = "Price vs Number of Reviews",
+       x = "Number of Reviews",
+       y = "Price")
 ```
 
 -   This plot revealed that the lower the price the higher the number of reviews.
@@ -259,17 +256,17 @@ cor_matrix <- cor(numerical_data, use = "complete.obs")  # Create correlation ma
 cor_data <- as.data.frame(as.table(cor_matrix))  # Convert to data frame
 
 # Create a heatmap to visualize correlations
-ggplot(cor_data, aes(Var1, Var2, fill = Freq)) +  # Set aesthetics for variables and color
-  geom_tile(color = "white") +  # Create tiles with white background
-  scale_fill_gradient2(low = "pink", high = "red", mid = "white",  # Color scale for correlation strength
-                       midpoint = 0, limit = c(-1,1), space = "Lab",  # Set color range and space
-                       name="Correlation") +  # Add legend label
-  theme_minimal() +  # Apply a minimal theme for clean visuals
-  theme(axis.text.x = element_text(angle = 45, vjust = 1,  # Rotate x-axis labels for readability
-                                   size = 12, hjust = 1)) +  # Adjust label size and justification
-  labs(title = "Correlation Matrix Heatmap",  # Set plot title
-       x = "Variables",  # Set x-axis label
-       y = "Variables")  # Set y-axis label
+ggplot(cor_data, aes(Var1, Var2, fill = Freq)) +
+  geom_tile(color = "white") +
+  scale_fill_gradient2(low = "pink", high = "red", mid = "white",
+                       midpoint = 0, limit = c(-1,1), space = "Lab",
+                       name="Correlation") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1,
+                                   size = 12, hjust = 1)) +
+  labs(title = "Correlation Matrix Heatmap",
+       x = "Variables",
+       y = "Variables")
 ```
 
 -   **Host Response and Acceptance Rates:** There was a positive correlation between host response rate and host acceptance rate (0.39), indicating that hosts who responded quickly were also likely to accept booking requests at a higher rate.
@@ -300,7 +297,8 @@ airbnb$host_is_superhost <- factor(airbnb$host_is_superhost)
 # Select the relevant columns for review scores and Superhost status
 long_data <- airbnb %>%
   select(review_scores_rating, review_scores_cleanliness, review_scores_checkin, 
-         review_scores_communication, review_scores_location, review_scores_value, host_is_superhost,review_scores_accuracy) %>%
+         review_scores_communication, review_scores_location, review_scores_value, 
+         review_scores_accuracy, host_is_superhost) %>%
   pivot_longer(cols = starts_with("review_scores"),  # Select columns starting with "review_scores"
               names_to = "variable",  # Create a new column for variable names
               values_to = "value")  # Create a new column for the review scores
@@ -315,7 +313,6 @@ ggplot(long_data, aes(x = value, fill = host_is_superhost)) +  # Set data and ae
        x = "Score",  # Set x-axis label
        y = "Count",  # Set y-axis label
        fill = "Superhost Status")  # Set legend label
-
 ```
 
 -   Hosts with a super host status (1) scored consistently higher across all review score categories compared to those without the super host status (0).
@@ -325,16 +322,17 @@ ggplot(long_data, aes(x = value, fill = host_is_superhost)) +  # Set data and ae
 ### Response Rate by Review Count:
 
 ```{r}
-# Create a scatter plot of host_response_rate vs number review_scores_value reviews
+# Create a scatter plot of host_response_rate vs review_scores_value reviews
 airbnb %>%
   ggplot(aes(x = host_response_rate, y = review_scores_value)) +  # Correct mapping of variables
   geom_point(alpha = 0.5, color = "black") +  # Add data points
   geom_smooth(method = "lm", se = FALSE, color = "pink") +  # Add a linear regression line
   theme_minimal() +  # Apply a minimal theme to the plot
   labs(title = "Review Score vs Host Response Rate",  # Corrected plot title
-       x = "Average Review Score",  # Corrected x-axis label
-       y = "Host Response Rate")  # Corrected y-axis label
+       x = "Host Response Rate",  # Corrected x-axis label
+       y = "Review Score")  # Corrected y-axis label
 ```
+
 -   There appeared to be a slight positive correlation between review scores and host response rate.
 
 -   This suggested that hosts with higher average review scores tended to have slightly higher response rates.
@@ -350,13 +348,12 @@ airbnb %>%
 
 ### 1) Calculating the Yearly Revenue:
 
-To assess whether a property achieved at least the median yearly revenue, I first calculated the estimated annual revenue for each property, assuming an 80% booking rate.
-
-To assess whether a property achieved at least the median `yearly_revenue`, I first calculated the estimated annual revenue for each property, assuming an 80% booking rate. This step creates the `yearly_revenue` variable, which is essential for comparing properties against the median revenue threshold.
+To determine if a property meets or exceeds the median annual revenue, I first estimated each property's yearly revenue based on an 80% booking rate. This calculation produced the yearly_revenue variable, which is crucial for comparing each property's revenue against the median threshold.
 
 ```{r Revenue Calculation}
-yearly_revenue <- (0.8 * airbnb$availability_365) * airbnb$price # Calculate yearly revenue assuming that hosts achieve 80% of their avialability
-airbnb_new <- cbind(airbnb, yearly_revenue) # Append the yearly revenue column to a new version fo the airbnb data set
+# Calculate yearly revenue assuming that hosts achieve 80% of their availability
+yearly_revenue <- (0.8 * airbnb$availability_365) * airbnb$price  # Calculate yearly revenue
+airbnb_new <- cbind(airbnb, yearly_revenue)  # Append the yearly revenue column to a new version of the airbnb data set
 ```
 
 ### 2) Calculate Median Revenue:
@@ -365,15 +362,13 @@ I computed the median yearly revenue to establish a benchmark for performance. P
 
 ```{r Median Calculation}
 # Calculate the median yearly revenue from the dataset
-Median_Revenue <- median(airbnb_new$yearly_revenue)
+Median_Revenue <- median(airbnb_new$yearly_revenue, na.rm = TRUE)  # Handle NA values
 
 # Create a new variable indicating whether a property is above or below the median revenue
-# 1 for above median, 0 for below median
 AboveMedianRevenue <- ifelse(airbnb_new$yearly_revenue >= Median_Revenue, 1, 0)
 
 # Combine the original dataset with the newly created variable
 airbnb_new2 <- cbind(airbnb_new, AboveMedianRevenue)
-
 ```
 
 ### 3) Plotting Current Data set Probability ("AboveMedianRevenue"):
@@ -381,6 +376,8 @@ airbnb_new2 <- cbind(airbnb_new, AboveMedianRevenue)
 I used a pie chart to visualize the proportion of properties meeting or exceeding the median revenue. This visualization provided a clear view of revenue distribution and helped to quickly understand the performance of properties relative to the benchmark.
 
 ```{r Current Plot}
+library(plotly)  # Ensure that plotly is loaded
+
 above_median_counts <- table(airbnb_new2$AboveMedianRevenue) 
 
 # Create a data frame to hold the category (Above/Below Median) and counts
@@ -391,22 +388,13 @@ colnames(df_counts) <- c("Category", "Count")  # Category = Above/Below, Count =
 
 # Create an interactive pie chart 
 plot_ly(df_counts, 
-        # Set labels for pie chart slices based on "Category" column
         labels = ~Category, 
-        # Set values for pie chart slice sizes based on "Count" column
         values = ~Count, 
-        # Specify pie chart type
         type = 'pie',
-        # Show labels and percentages within each slice
         textinfo = 'label+percent',
-        # Set colors for pie chart slices (red for above median, grey for below)
         marker = list(colors = c("#FF5A5F", "#484848"))) %>%
-  # Add a title to the chart
   layout(title = 'Distribution of Properties by Yearly Revenue',
-         # Show the legend for the pie chart slices
          showlegend = TRUE)
-
-
 ```
 
 ### 4) Feature Selection:
@@ -415,10 +403,10 @@ Selecting relevant features ensured that the logistic regression model was both 
 
 ```{r Feature Selection}
 features <- airbnb_new2 %>%
-select(AboveMedianRevenue,accommodates,room_type,neighbourhood_cleansed,minimum_nights, host_verifications,review_scores_rating) #create a subset of the dataset with variables relevant to revenue prediction
+  select(AboveMedianRevenue, accommodates, room_type, neighbourhood_cleansed, minimum_nights, 
+         host_verifications, review_scores_rating)  # Create a subset of the dataset with variables relevant to revenue prediction
 
-target <- airbnb_new2$AboveMedianRevenue #define the outcome variable for a predictive model based on revenue
-
+target <- airbnb_new2$AboveMedianRevenue  # Define the outcome variable for a predictive model based on revenue
 ```
 
 ### 5) Data Splitting:
@@ -426,10 +414,11 @@ target <- airbnb_new2$AboveMedianRevenue #define the outcome variable for a pred
 I split the data set into training and test sets to build and evaluate the logistic regression model. The training set was used for model development, while the test set assessed the model's performance on unseen data, ensuring reliable evaluation.
 
 ```{r Data Splitting}
-set.seed(42) #seed ensures reproducibility by setting a seed
-trainingSamples <- createDataPartition(target, p = 0.7, list = FALSE) #generates random sample of data, with 70% allocated to training
-train <- airbnb_new2[trainingSamples, ] #Extracts the training data
-test <- airbnb_new2[-trainingSamples, ] #Extracts the testing data
+library(caret)  # Ensure that caret is loaded
+set.seed(42)  # Seed ensures reproducibility by setting a seed
+trainingSamples <- createDataPartition(target, p = 0.7, list = FALSE)  # Generate random sample of data, with 70% allocated to training
+train <- airbnb_new2[trainingSamples, ]  # Extract the training data
+test <- airbnb_new2[-trainingSamples, ]  # Extract the testing data
 ```
 
 ### 6) Constructing Logistic Regression Model:
@@ -437,11 +426,11 @@ test <- airbnb_new2[-trainingSamples, ] #Extracts the testing data
 Constructing the logistic regression model involved analyzing how various factors affected the probability of achieving at least the median revenue. This step helped identify significant predictors and provided insights that could guide property improvements.
 
 ```{r Logistic Regression Model, warning=FALSE}
-model_formula <- as.formula("AboveMedianRevenue ~ accommodates + room_type+neighbourhood_cleansed + minimum_nights + host_verifications  + review_scores_rating")#this specifies model structure with target and explanatory variables
+model_formula <- as.formula("AboveMedianRevenue ~ accommodates + room_type + neighbourhood_cleansed + minimum_nights + host_verifications + review_scores_rating")  # Specify model structure with target and explanatory variables
 
-model <- glm(model_formula, data = train, family = "binomial") #fits logistic regression model using defined formula and training data.
-modelsum <-summary(model) #Summarizes the model, providing coefficients, significance, and fit quality.
-modelsum
+model <- glm(model_formula, data = train, family = "binomial")  # Fit logistic regression model using defined formula and training data
+modelsum <- summary(model)  # Summarize the model, providing coefficients, significance, and fit quality
+print(modelsum)  # Print the model summary to view results
 ```
 -   The key features chosen in the above slide, were found by evaluating their significance when predicting revenue via their P- values.
 
@@ -456,8 +445,11 @@ After building the logistic regression model, I used it to predict the probabili
 **This step allowed me to assess the model's performance on new, unseen data by generating and classifying predicted probabilities into binary outcomes. This helped in evaluating how well the model distinguished between properties that met or exceeded the median revenue and those that did not.**
 
 ```{r Predictionsl}
-predictions <- predict.glm(object = model, newdata = test, type = "response") #Generates predicted probabilities from the logistic regression model for the test dataset.
-predictions_class <- ifelse(predictions > 0.5, 1, 0) #Converts probabilities into a binary classification, where values greater than 0.5 indicate above-median revenue.
+# Generate predicted probabilities from the logistic regression model for the test dataset
+predictions <- predict(model, newdata = test, type = "response")  # Use `predict` instead of `predict.glm`
+
+# Convert probabilities into a binary classification, where values greater than 0.5 indicate above-median revenue
+predictions_class <- ifelse(predictions > 0.5, 1, 0)
 ```
 
 ### 8) Plotting Predicting Data set Probability (AboveMedianRevenue):
@@ -465,6 +457,8 @@ predictions_class <- ifelse(predictions > 0.5, 1, 0) #Converts probabilities int
 To visualize the model's performance, I created a pie chart showing the proportion of properties predicted to be above or below the median revenue. This visualization helped in understanding the distribution of predictions and assessing the model's effectiveness.
 
 ```{r Prediction Plot}
+library(plotly)  # Ensure that plotly is loaded
+
 # Create frequency table
 predictions_table <- table(predictions_class)
 
@@ -475,16 +469,14 @@ df_counts <- as.data.frame(predictions_table)
 colnames(df_counts) <- c("Category", "Count")
 
 # Create an interactive pie chart 
-library(plotly)
-
 plot_ly(df_counts, 
         labels = ~Category,  # Set labels for pie chart slices based on "Category" column
         values = ~Count,    # Set values for pie chart slice sizes based on "Count" column
         type = 'pie',       # Specify pie chart type
         textinfo = 'label+percent',  # Show labels and percentages within each slice
-        marker = list(colors = c("#FF5A5F", "#484848")) # Set colors for pie chart slices
+        marker = list(colors = c("#FF5A5F", "#484848"))  # Set colors for pie chart slices
 ) %>%
-  layout(title = 'Distribution of Properties by Yearly Revenue',
+  layout(title = 'Distribution of Properties by Predicted Revenue Status',
          showlegend = TRUE)  # Add a title and show legend 
 ```
 
@@ -493,13 +485,18 @@ plot_ly(df_counts,
 Validation and robustness checks were crucial for assessing how well the logistic regression model performed and how accurately it predicted whether properties would meet or exceed the median revenue. This step provided insights into the model's effectiveness and helped ensure that the findings were reliable.
 
 ```{r Validation}
+library(caret)  # Ensure caret is loaded for confusionMatrix function
+
+# Calculate and print the confusion matrix for model performance
 confusionMatrix(factor(predictions_class), factor(test$AboveMedianRevenue))
-pR2(model)
+
+# Calculate and print the Pseudo R-squared value for the model
+pR2(model)  # Ensure that the pR2 function is properly loaded (usually from the `pscl` package)
 ```
 
 A summary of the model's performance:
 
--   **McFadden Score:** A value between 0.2 and 0.4 indicated a good model, as suggested by lecture material.
+-   **McFadden Score:** A value between 0.2 and 0.4 indicated a good model fit.
 
 -   **Accuracy:** The model correctly predicted the revenue category for 65% of the properties.
 
@@ -511,9 +508,9 @@ A summary of the model's performance:
 
 # PCA Construction: Review Score Analysis:
 
-**Method rationale:** The goal was to simplify the data set of Airbnb properties in Canada by reducing its dimensionality while retaining critical information. PCA helped to identify key variables that affected review scores and other metrics, providing insights into factors that drove property performance and informed actionable recommendations.
+**Method rationale:** The goal was to simplify the data set of Airbnb properties in Canada by reducing its dimensionality while retaining critical information. A Principal Component Analysis (PCA) helped to identify key variables that affected review scores and other metrics, providing insights into factors that drove property performance and informed actionable recommendations.
 
-**Results:** Review variables were well represented, with host acceptance rate strongly correlated with PCA 2 and host is superhost in PCA 7.
+**Results:** Review variables were well represented, with host acceptance rate strongly correlated with PCA 2 and 'host is super host' in PCA 7.
 
 ### 1) Remove all categorical data:
 
@@ -637,9 +634,9 @@ mypca2$eig
 
 # Regression Tree: Review Score Analysis:
 
-**Model Rationale:** These trees allowed us to visualize how different predictor variables affected the overall review rating (target variable) and how interactions between variables could influence the target variable. By examining the tree structures, I identified key factors such as host characteristics, location, and property features that were significant predictors of review scores. This analysis helped in understanding the drivers behind review ratings and provided actionable insights for Airbnb hosts to improve their listings and performance. Additionally, the trees' ability to handle complex interactions between variables made them a robust tool for exploring and interpreting the data set in a meaningful way.
+**Model Rationale:** Regression trees were used to analyze how different predictor variables affect the overall review rating (target variable) and to explore the interactions between these variables. The tree structure helps visualize key factors influencing review scores, such as host characteristics, location, and property features. This approach is beneficial for identifying significant predictors and understanding how complex interactions between variables impact review ratings. The insights gained from this analysis can provide actionable recommendations for Airbnb hosts to enhance their listings and improve their performance.
 
-**Results:** This regression tree revealed that host superhost status, room type, and other factors such as `instant_bookable`, `host_listings_count`, and `availability_365` significantly influenced review scores. These insights could guide Airbnb hosts in optimizing their properties to enhance review ratings.
+**Results:** The regression tree analysis revealed that host superhost status, room type, and other factors such as instant_bookable, host_listings_count, and availability_365 significantly influenced review scores. These findings suggest that optimizing these factors could lead to better review ratings and improved host performance.
 
 ```{r}
 # Define formulas for various models
@@ -782,7 +779,6 @@ print(mean_error)
 The model's performance, indicated by the mean squared error (MSE) of 0.1335 from the 5-fold cross-validation, suggested a reasonably good fit to the data, with predicted values closely aligning with actual ratings on average.
 
 # Avoiding Multicollinearity:
-
 Multicollinearity arises when two or more independent variables in a regression model are highly correlated with each other. This complication can affect the model's performance and make the interpretation of results more challenging.
 
 **How It Was Addressed:**
@@ -807,7 +803,7 @@ Multicollinearity arises when two or more independent variables in a regression 
 
 1.  **Implement a Review Incentive Program:** The Airbnb management team could consider introducing a reward system to encourage guests to complete review forms. Based on the success of similar loyalty programs, this could lead to increased guest engagement and more comprehensive feedback (McDarris, 2024).
 
-# Project Limitations
+# Project Limitations:
 
 1.  **Dynamic Pricing Challenges:** The Airbnb dynamic pricing model affects the accuracy of the data analyzed. The 'price' variable reflects the listing price at the time of data collection, which may not account for historical pricing fluctuations. For example, hosts might initially set lower prices to attract positive reviews before raising them, a factor not captured by the current model. This lack of historical pricing data impacts the model's precision.
 

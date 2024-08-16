@@ -350,15 +350,16 @@ div.tocify {
 </div>
 
 
-<p><strong>NOTE:</strong> This files contains scrollable chunks</p>
+<p><strong>NOTE:</strong> This file contains scrollable chunks</p>
 <p>As part of a university coursework project, I assumed the role of a
 consultant to analyze the Toronto Airbnb market. My objective was to
 provide data-driven insights to enhance host performance and
 profitability. By examining an extensive data set, I aimed to uncover
 trends, patterns, and opportunities within the Toronto Airbnb
 landscape.</p>
-<p><strong>** The data was sourced from a 2023 data set available on
-<em>InsideAirbnb.com (</em><a href="https://insideairbnb.com"
+<p><strong>** The data used in this analysis was sourced from a 2023
+data set available on <em>InsideAirbnb.com</em> (<a
+href="https://insideairbnb.com"
 class="uri">https://insideairbnb.com</a>)</strong></p>
 <p>The goal of this project was to equip Airbnb hosts with actionable
 strategies to improve their reviews and achieve sustained success in
@@ -393,8 +394,8 @@ pre[class] {
 }
 </style>
 <p>______________________________________________________________________________________________________</p>
-<div id="data-preprocessing" class="section level1">
-<h1>Data Preprocessing:</h1>
+<div id="data-pre-processing" class="section level1">
+<h1>Data Pre-processing:</h1>
 <div id="variable-removal" class="section level3">
 <h3>Variable Removal:</h3>
 <p>The first step before starting the main data analysis was the data
@@ -427,8 +428,8 @@ to ensure consistency across the data set. The specific transformations
 were as follows:</p>
 <ul>
 <li><p><strong>Binary Variables: ‘Host is Superhost’, ‘Host has Profile
-Pic’ ‘Host Identity Verified’, ‘Instant Bookable’:</strong> These were
-originally stored as Boolean (True/False) values. They were converted to
+Pic’, ‘Host Identity Verified’, ‘Instant Bookable’:</strong> These were
+originally stored as Boolean (True/False) values and were converted to
 binary (0/1) format.</p></li>
 <li><p><strong>Text Data: ‘Host Verification’:</strong> This variable,
 initially in text format, contained multiple categories of verification.
@@ -473,12 +474,12 @@ performance.</p></li>
 entries had extreme values, which could potentially skew the analysis.
 These outliers were removed because:</p>
 <ul>
-<li><p><strong>Impact on Analysis:</strong> Extreme values can
+<li><strong>Impact on Analysis:</strong> Extreme values can
 disproportionately affect statistical measures like mean and variance,
-leading to inaccurate models and predictions.</p></li>
-<li><p><strong>Improved Accuracy:</strong> By removing outliers, the
-data set becomes more representative of typical properties, resulting in
-more reliable insights.</p></li>
+leading to inaccurate models and predictions.</li>
+<li><strong>Improved Accuracy:</strong> By removing outliers, the data
+set becomes more representative of typical properties, resulting in more
+reliable insights.</li>
 </ul>
 <p>______________________________________________________________________________________________________</p>
 </div>
@@ -486,7 +487,7 @@ more reliable insights.</p></li>
 <div id="data-exploration" class="section level1">
 <h1>Data Exploration:</h1>
 <p>After completing the data pre-processing stages, I conducted data
-exploration to uncover general trends and patterns within the 9,628
+exploration to uncover general trends and patterns within the 9,268
 Airbnb properties remaining in the data set. This step was essential for
 gaining insights into the characteristics and behaviors of these
 properties, laying the foundation for more in-depth analysis.</p>
@@ -959,14 +960,12 @@ and <code>neighbourhood_cleansed</code>:</p>
 <pre class="r"><code># Select the categorical variables of interest
 airbnb %&gt;%
   select(property_type, room_type, neighbourhood_cleansed) %&gt;%
-  # Convert the data to long format for easier plotting
   pivot_longer(cols = everything(), names_to = &quot;variable&quot;, values_to = &quot;value&quot;) %&gt;%
-  # Create a bar plot for each categorical variable
   ggplot(aes(x = value)) +
-  geom_bar(fill = &quot;pink&quot;, color = &quot;red&quot;) +  # Create bars with pink fill and red outline
-  facet_wrap(~ variable, scales = &quot;free_x&quot;) +  # Create multiple plots for each variable with free x-axis scales
-  theme_minimal() +  # Apply a minimal theme to the plot
-  labs(title = &quot;Frequency of Categorical Variables&quot;)  # Add a title to the plot</code></pre>
+  geom_bar(fill = &quot;pink&quot;, color = &quot;red&quot;) +
+  facet_wrap(~ variable, scales = &quot;free_x&quot;) +
+  theme_minimal() +
+  labs(title = &quot;Frequency of Categorical Variables&quot;)</code></pre>
 <p><img src="Journal_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <ul>
 <li><p><strong>Neighborhood:</strong> The neighborhood with the most
@@ -986,16 +985,15 @@ class="section level3">
 <h3>Price Distribution Across All Property Types:</h3>
 <p>To compare the distribution of numerical variables across different
 categories:</p>
-<pre class="r"><code># Box plots for price by property_type
-# Create box plots for price by property type
+<pre class="r"><code># Create box plots for price by property type
 airbnb %&gt;%
-  ggplot(aes(x = property_type, y = price)) +  # Set property type as x-axis and price as y-axis
-  geom_boxplot(fill = &quot;pink&quot;, color = &quot;red&quot;) +  # Create box plots with pink fill and red outline
-  theme_minimal() +  # Apply a minimal theme to the plot
-  labs(title = &quot;Price Distribution by Property Type&quot;,  # Set plot title
-       x = &quot;Property Type&quot;,  # Set x-axis label
-       y = &quot;Price&quot;) +  # Set y-axis label
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels for better readability</code></pre>
+  ggplot(aes(x = property_type, y = price)) +
+  geom_boxplot(fill = &quot;pink&quot;, color = &quot;red&quot;) +
+  theme_minimal() +
+  labs(title = &quot;Price Distribution by Property Type&quot;,
+       x = &quot;Property Type&quot;,
+       y = &quot;Price&quot;) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))</code></pre>
 <p><img src="Journal_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <ul>
 <li><p>The most expensive property type was an ’<strong>entire
@@ -1012,13 +1010,13 @@ home</p></li>
 like <code>price</code> and <code>number_of_reviews</code>:</p>
 <pre class="r"><code># Create a scatter plot of price vs number of reviews
 airbnb %&gt;%
-  ggplot(aes(x = price, y = number_of_reviews)) +  # Set price on x-axis and number of reviews on y-axis
-  geom_point(alpha = 0.5, color = &quot;black&quot;) +  # Add data points with transparency
-  geom_smooth(method = &quot;lm&quot;, se = FALSE, color = &quot;pink&quot;) +  # Add a linear regression line
-  theme_minimal() +  # Apply a minimal theme to the plot
-  labs(title = &quot;Price vs Number of Reviews&quot;,  # Set plot title
-       x = &quot;Number of Reviews&quot;,  # Set x-axis label
-       y = &quot;Price&quot;)  # Set y-axis label</code></pre>
+  ggplot(aes(x = price, y = number_of_reviews)) +
+  geom_point(alpha = 0.5, color = &quot;black&quot;) +
+  geom_smooth(method = &quot;lm&quot;, se = FALSE, color = &quot;pink&quot;) +
+  theme_minimal() +
+  labs(title = &quot;Price vs Number of Reviews&quot;,
+       x = &quot;Number of Reviews&quot;,
+       y = &quot;Price&quot;)</code></pre>
 <p><img src="Journal_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <ul>
 <li>This plot revealed that the lower the price the higher the number of
@@ -1039,17 +1037,17 @@ cor_matrix &lt;- cor(numerical_data, use = &quot;complete.obs&quot;)  # Create c
 cor_data &lt;- as.data.frame(as.table(cor_matrix))  # Convert to data frame
 
 # Create a heatmap to visualize correlations
-ggplot(cor_data, aes(Var1, Var2, fill = Freq)) +  # Set aesthetics for variables and color
-  geom_tile(color = &quot;white&quot;) +  # Create tiles with white background
-  scale_fill_gradient2(low = &quot;pink&quot;, high = &quot;red&quot;, mid = &quot;white&quot;,  # Color scale for correlation strength
-                       midpoint = 0, limit = c(-1,1), space = &quot;Lab&quot;,  # Set color range and space
-                       name=&quot;Correlation&quot;) +  # Add legend label
-  theme_minimal() +  # Apply a minimal theme for clean visuals
-  theme(axis.text.x = element_text(angle = 45, vjust = 1,  # Rotate x-axis labels for readability
-                                   size = 12, hjust = 1)) +  # Adjust label size and justification
-  labs(title = &quot;Correlation Matrix Heatmap&quot;,  # Set plot title
-       x = &quot;Variables&quot;,  # Set x-axis label
-       y = &quot;Variables&quot;)  # Set y-axis label</code></pre>
+ggplot(cor_data, aes(Var1, Var2, fill = Freq)) +
+  geom_tile(color = &quot;white&quot;) +
+  scale_fill_gradient2(low = &quot;pink&quot;, high = &quot;red&quot;, mid = &quot;white&quot;,
+                       midpoint = 0, limit = c(-1,1), space = &quot;Lab&quot;,
+                       name=&quot;Correlation&quot;) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1,
+                                   size = 12, hjust = 1)) +
+  labs(title = &quot;Correlation Matrix Heatmap&quot;,
+       x = &quot;Variables&quot;,
+       y = &quot;Variables&quot;)</code></pre>
 <p><img src="Journal_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <ul>
 <li><p><strong>Host Response and Acceptance Rates:</strong> There was a
@@ -1095,7 +1093,8 @@ airbnb$host_is_superhost &lt;- factor(airbnb$host_is_superhost)
 # Select the relevant columns for review scores and Superhost status
 long_data &lt;- airbnb %&gt;%
   select(review_scores_rating, review_scores_cleanliness, review_scores_checkin, 
-         review_scores_communication, review_scores_location, review_scores_value, host_is_superhost,review_scores_accuracy) %&gt;%
+         review_scores_communication, review_scores_location, review_scores_value, 
+         review_scores_accuracy, host_is_superhost) %&gt;%
   pivot_longer(cols = starts_with(&quot;review_scores&quot;),  # Select columns starting with &quot;review_scores&quot;
               names_to = &quot;variable&quot;,  # Create a new column for variable names
               values_to = &quot;value&quot;)  # Create a new column for the review scores
@@ -1123,21 +1122,21 @@ reflected in the review scores.</p></li>
 </div>
 <div id="response-rate-by-review-count" class="section level3">
 <h3>Response Rate by Review Count:</h3>
-<pre class="r"><code># Create a scatter plot of host_response_rate vs number review_scores_value reviews
+<pre class="r"><code># Create a scatter plot of host_response_rate vs review_scores_value reviews
 airbnb %&gt;%
   ggplot(aes(x = host_response_rate, y = review_scores_value)) +  # Correct mapping of variables
   geom_point(alpha = 0.5, color = &quot;black&quot;) +  # Add data points
   geom_smooth(method = &quot;lm&quot;, se = FALSE, color = &quot;pink&quot;) +  # Add a linear regression line
   theme_minimal() +  # Apply a minimal theme to the plot
   labs(title = &quot;Review Score vs Host Response Rate&quot;,  # Corrected plot title
-       x = &quot;Average Review Score&quot;,  # Corrected x-axis label
-       y = &quot;Host Response Rate&quot;)  # Corrected y-axis label</code></pre>
-<p><img src="Journal_files/figure-html/unnamed-chunk-9-1.png" width="672" />
-- There appeared to be a slight positive correlation between review
-scores and host response rate.</p>
+       x = &quot;Host Response Rate&quot;,  # Corrected x-axis label
+       y = &quot;Review Score&quot;)  # Corrected y-axis label</code></pre>
+<p><img src="Journal_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <ul>
-<li>This suggested that hosts with higher average review scores tended
-to have slightly higher response rates.</li>
+<li><p>There appeared to be a slight positive correlation between review
+scores and host response rate.</p></li>
+<li><p>This suggested that hosts with higher average review scores
+tended to have slightly higher response rates.</p></li>
 </ul>
 </div>
 </div>
@@ -1157,16 +1156,14 @@ properties would achieve or surpass the median revenue, providing hosts
 with a clear standard to assess and improve performance.</p>
 <div id="calculating-the-yearly-revenue" class="section level3">
 <h3>1) Calculating the Yearly Revenue:</h3>
-<p>To assess whether a property achieved at least the median yearly
-revenue, I first calculated the estimated annual revenue for each
-property, assuming an 80% booking rate.</p>
-<p>To assess whether a property achieved at least the median
-<code>yearly_revenue</code>, I first calculated the estimated annual
-revenue for each property, assuming an 80% booking rate. This step
-creates the <code>yearly_revenue</code> variable, which is essential for
-comparing properties against the median revenue threshold.</p>
-<pre class="r"><code>yearly_revenue &lt;- (0.8 * airbnb$availability_365) * airbnb$price # Calculate yearly revenue assuming that hosts achieve 80% of their avialability
-airbnb_new &lt;- cbind(airbnb, yearly_revenue) # Append the yearly revenue column to a new version fo the airbnb data set</code></pre>
+<p>To determine if a property meets or exceeds the median annual
+revenue, I first estimated each property’s yearly revenue based on an
+80% booking rate. This calculation produced the yearly_revenue variable,
+which is crucial for comparing each property’s revenue against the
+median threshold.</p>
+<pre class="r"><code># Calculate yearly revenue assuming that hosts achieve 80% of their availability
+yearly_revenue &lt;- (0.8 * airbnb$availability_365) * airbnb$price  # Calculate yearly revenue
+airbnb_new &lt;- cbind(airbnb, yearly_revenue)  # Append the yearly revenue column to a new version of the airbnb data set</code></pre>
 </div>
 <div id="calculate-median-revenue" class="section level3">
 <h3>2) Calculate Median Revenue:</h3>
@@ -1175,10 +1172,9 @@ performance. Properties were then classified as either achieving the
 median revenue (1) or not (0). This binary classification simplified the
 analysis and prepared the data set for logistic regression modeling.</p>
 <pre class="r"><code># Calculate the median yearly revenue from the dataset
-Median_Revenue &lt;- median(airbnb_new$yearly_revenue)
+Median_Revenue &lt;- median(airbnb_new$yearly_revenue, na.rm = TRUE)  # Handle NA values
 
 # Create a new variable indicating whether a property is above or below the median revenue
-# 1 for above median, 0 for below median
 AboveMedianRevenue &lt;- ifelse(airbnb_new$yearly_revenue &gt;= Median_Revenue, 1, 0)
 
 # Combine the original dataset with the newly created variable
@@ -1192,7 +1188,9 @@ class="section level3">
 or exceeding the median revenue. This visualization provided a clear
 view of revenue distribution and helped to quickly understand the
 performance of properties relative to the benchmark.</p>
-<pre class="r"><code>above_median_counts &lt;- table(airbnb_new2$AboveMedianRevenue) 
+<pre class="r"><code>library(plotly)  # Ensure that plotly is loaded
+
+above_median_counts &lt;- table(airbnb_new2$AboveMedianRevenue) 
 
 # Create a data frame to hold the category (Above/Below Median) and counts
 df_counts &lt;- as.data.frame(above_median_counts)
@@ -1202,22 +1200,15 @@ colnames(df_counts) &lt;- c(&quot;Category&quot;, &quot;Count&quot;)  # Category
 
 # Create an interactive pie chart 
 plot_ly(df_counts, 
-        # Set labels for pie chart slices based on &quot;Category&quot; column
         labels = ~Category, 
-        # Set values for pie chart slice sizes based on &quot;Count&quot; column
         values = ~Count, 
-        # Specify pie chart type
         type = &#39;pie&#39;,
-        # Show labels and percentages within each slice
         textinfo = &#39;label+percent&#39;,
-        # Set colors for pie chart slices (red for above median, grey for below)
         marker = list(colors = c(&quot;#FF5A5F&quot;, &quot;#484848&quot;))) %&gt;%
-  # Add a title to the chart
   layout(title = &#39;Distribution of Properties by Yearly Revenue&#39;,
-         # Show the legend for the pie chart slices
          showlegend = TRUE)</code></pre>
-<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-9812d1ce1ed296c898a5" style="width:672px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-9812d1ce1ed296c898a5">{"x":{"visdat":{"10d7180f6e80":["function () ","plotlyVisDat"]},"cur_data":"10d7180f6e80","attrs":{"10d7180f6e80":{"labels":{},"values":{},"textinfo":"label+percent","marker":{"colors":["#FF5A5F","#484848"]},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Distribution of Properties by Yearly Revenue","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["0","1"],"values":[4613,4635],"textinfo":"label+percent","marker":{"color":"rgba(31,119,180,1)","colors":["#FF5A5F","#484848"],"line":{"color":"rgba(255,255,255,1)"}},"type":"pie","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-5440e803bff191fbeaed" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-5440e803bff191fbeaed">{"x":{"visdat":{"47fd271b2fb":["function () ","plotlyVisDat"]},"cur_data":"47fd271b2fb","attrs":{"47fd271b2fb":{"labels":{},"values":{},"textinfo":"label+percent","marker":{"colors":["#FF5A5F","#484848"]},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Distribution of Properties by Yearly Revenue","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["0","1"],"values":[4613,4635],"textinfo":"label+percent","marker":{"color":"rgba(31,119,180,1)","colors":["#FF5A5F","#484848"],"line":{"color":"rgba(255,255,255,1)"}},"type":"pie","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="feature-selection" class="section level3">
 <h3>4) Feature Selection:</h3>
@@ -1227,9 +1218,10 @@ were likely to influence whether a property achieved the median revenue,
 refining the data set for effective modeling. This step used insights
 from the correlation matrix created in the data exploration stage.</p>
 <pre class="r"><code>features &lt;- airbnb_new2 %&gt;%
-select(AboveMedianRevenue,accommodates,room_type,neighbourhood_cleansed,minimum_nights, host_verifications,review_scores_rating) #create a subset of the dataset with variables relevant to revenue prediction
+  select(AboveMedianRevenue, accommodates, room_type, neighbourhood_cleansed, minimum_nights, 
+         host_verifications, review_scores_rating)  # Create a subset of the dataset with variables relevant to revenue prediction
 
-target &lt;- airbnb_new2$AboveMedianRevenue #define the outcome variable for a predictive model based on revenue</code></pre>
+target &lt;- airbnb_new2$AboveMedianRevenue  # Define the outcome variable for a predictive model based on revenue</code></pre>
 </div>
 <div id="data-splitting" class="section level3">
 <h3>5) Data Splitting:</h3>
@@ -1237,10 +1229,11 @@ target &lt;- airbnb_new2$AboveMedianRevenue #define the outcome variable for a p
 evaluate the logistic regression model. The training set was used for
 model development, while the test set assessed the model’s performance
 on unseen data, ensuring reliable evaluation.</p>
-<pre class="r"><code>set.seed(42) #seed ensures reproducibility by setting a seed
-trainingSamples &lt;- createDataPartition(target, p = 0.7, list = FALSE) #generates random sample of data, with 70% allocated to training
-train &lt;- airbnb_new2[trainingSamples, ] #Extracts the training data
-test &lt;- airbnb_new2[-trainingSamples, ] #Extracts the testing data</code></pre>
+<pre class="r"><code>library(caret)  # Ensure that caret is loaded
+set.seed(42)  # Seed ensures reproducibility by setting a seed
+trainingSamples &lt;- createDataPartition(target, p = 0.7, list = FALSE)  # Generate random sample of data, with 70% allocated to training
+train &lt;- airbnb_new2[trainingSamples, ]  # Extract the training data
+test &lt;- airbnb_new2[-trainingSamples, ]  # Extract the testing data</code></pre>
 </div>
 <div id="constructing-logistic-regression-model" class="section level3">
 <h3>6) Constructing Logistic Regression Model:</h3>
@@ -1248,11 +1241,11 @@ test &lt;- airbnb_new2[-trainingSamples, ] #Extracts the testing data</code></pr
 various factors affected the probability of achieving at least the
 median revenue. This step helped identify significant predictors and
 provided insights that could guide property improvements.</p>
-<pre class="r"><code>model_formula &lt;- as.formula(&quot;AboveMedianRevenue ~ accommodates + room_type+neighbourhood_cleansed + minimum_nights + host_verifications  + review_scores_rating&quot;)#this specifies model structure with target and explanatory variables
+<pre class="r"><code>model_formula &lt;- as.formula(&quot;AboveMedianRevenue ~ accommodates + room_type + neighbourhood_cleansed + minimum_nights + host_verifications + review_scores_rating&quot;)  # Specify model structure with target and explanatory variables
 
-model &lt;- glm(model_formula, data = train, family = &quot;binomial&quot;) #fits logistic regression model using defined formula and training data.
-modelsum &lt;-summary(model) #Summarizes the model, providing coefficients, significance, and fit quality.
-modelsum</code></pre>
+model &lt;- glm(model_formula, data = train, family = &quot;binomial&quot;)  # Fit logistic regression model using defined formula and training data
+modelsum &lt;- summary(model)  # Summarize the model, providing coefficients, significance, and fit quality
+print(modelsum)  # Print the model summary to view results</code></pre>
 <pre><code>## 
 ## Call:
 ## glm(formula = model_formula, family = &quot;binomial&quot;, data = train)
@@ -1591,8 +1584,11 @@ new, unseen data by generating and classifying predicted probabilities
 into binary outcomes. This helped in evaluating how well the model
 distinguished between properties that met or exceeded the median revenue
 and those that did not.</strong></p>
-<pre class="r"><code>predictions &lt;- predict.glm(object = model, newdata = test, type = &quot;response&quot;) #Generates predicted probabilities from the logistic regression model for the test dataset.
-predictions_class &lt;- ifelse(predictions &gt; 0.5, 1, 0) #Converts probabilities into a binary classification, where values greater than 0.5 indicate above-median revenue.</code></pre>
+<pre class="r"><code># Generate predicted probabilities from the logistic regression model for the test dataset
+predictions &lt;- predict(model, newdata = test, type = &quot;response&quot;)  # Use `predict` instead of `predict.glm`
+
+# Convert probabilities into a binary classification, where values greater than 0.5 indicate above-median revenue
+predictions_class &lt;- ifelse(predictions &gt; 0.5, 1, 0)</code></pre>
 </div>
 <div id="plotting-predicting-data-set-probability-abovemedianrevenue"
 class="section level3">
@@ -1602,7 +1598,9 @@ class="section level3">
 the proportion of properties predicted to be above or below the median
 revenue. This visualization helped in understanding the distribution of
 predictions and assessing the model’s effectiveness.</p>
-<pre class="r"><code># Create frequency table
+<pre class="r"><code>library(plotly)  # Ensure that plotly is loaded
+
+# Create frequency table
 predictions_table &lt;- table(predictions_class)
 
 # Create a data frame to hold the category (Above/Below Median) and counts
@@ -1612,19 +1610,17 @@ df_counts &lt;- as.data.frame(predictions_table)
 colnames(df_counts) &lt;- c(&quot;Category&quot;, &quot;Count&quot;)
 
 # Create an interactive pie chart 
-library(plotly)
-
 plot_ly(df_counts, 
         labels = ~Category,  # Set labels for pie chart slices based on &quot;Category&quot; column
         values = ~Count,    # Set values for pie chart slice sizes based on &quot;Count&quot; column
         type = &#39;pie&#39;,       # Specify pie chart type
         textinfo = &#39;label+percent&#39;,  # Show labels and percentages within each slice
-        marker = list(colors = c(&quot;#FF5A5F&quot;, &quot;#484848&quot;)) # Set colors for pie chart slices
+        marker = list(colors = c(&quot;#FF5A5F&quot;, &quot;#484848&quot;))  # Set colors for pie chart slices
 ) %&gt;%
-  layout(title = &#39;Distribution of Properties by Yearly Revenue&#39;,
+  layout(title = &#39;Distribution of Properties by Predicted Revenue Status&#39;,
          showlegend = TRUE)  # Add a title and show legend </code></pre>
-<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-9307f0fd2cb6e0dfe14d" style="width:672px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-9307f0fd2cb6e0dfe14d">{"x":{"visdat":{"30b83c302b1f":["function () ","plotlyVisDat"]},"cur_data":"30b83c302b1f","attrs":{"30b83c302b1f":{"labels":{},"values":{},"textinfo":"label+percent","marker":{"colors":["#FF5A5F","#484848"]},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Distribution of Properties by Yearly Revenue","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["0","1"],"values":[1302,1472],"textinfo":"label+percent","marker":{"color":"rgba(31,119,180,1)","colors":["#FF5A5F","#484848"],"line":{"color":"rgba(255,255,255,1)"}},"type":"pie","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<div class="plotly html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-db1d97973b91d1dc4d57" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-db1d97973b91d1dc4d57">{"x":{"visdat":{"47fd61a892c0":["function () ","plotlyVisDat"]},"cur_data":"47fd61a892c0","attrs":{"47fd61a892c0":{"labels":{},"values":{},"textinfo":"label+percent","marker":{"colors":["#FF5A5F","#484848"]},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"pie"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Distribution of Properties by Predicted Revenue Status","showlegend":true,"hovermode":"closest"},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"labels":["0","1"],"values":[1302,1472],"textinfo":"label+percent","marker":{"color":"rgba(31,119,180,1)","colors":["#FF5A5F","#484848"],"line":{"color":"rgba(255,255,255,1)"}},"type":"pie","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="validation-and-robustness-checks" class="section level3">
 <h3>9) Validation and Robustness checks:</h3>
@@ -1633,7 +1629,10 @@ the logistic regression model performed and how accurately it predicted
 whether properties would meet or exceed the median revenue. This step
 provided insights into the model’s effectiveness and helped ensure that
 the findings were reliable.</p>
-<pre class="r"><code>confusionMatrix(factor(predictions_class), factor(test$AboveMedianRevenue))</code></pre>
+<pre class="r"><code>library(caret)  # Ensure caret is loaded for confusionMatrix function
+
+# Calculate and print the confusion matrix for model performance
+confusionMatrix(factor(predictions_class), factor(test$AboveMedianRevenue))</code></pre>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
@@ -1661,7 +1660,8 @@ the findings were reliable.</p>
 ##                                           
 ##        &#39;Positive&#39; Class : 0               
 ## </code></pre>
-<pre class="r"><code>pR2(model)</code></pre>
+<pre class="r"><code># Calculate and print the Pseudo R-squared value for the model
+pR2(model)  # Ensure that the pR2 function is properly loaded (usually from the `pscl` package)</code></pre>
 <pre><code>## fitting null model for pseudo-r2</code></pre>
 <pre><code>##           llh       llhNull            G2      McFadden          r2ML 
 ## -3850.3482148 -4487.4345380  1274.1726464     0.1419712     0.1786565 
@@ -1670,7 +1670,7 @@ the findings were reliable.</p>
 <p>A summary of the model’s performance:</p>
 <ul>
 <li><p><strong>McFadden Score:</strong> A value between 0.2 and 0.4
-indicated a good model, as suggested by lecture material.</p></li>
+indicated a good model fit.</p></li>
 <li><p><strong>Accuracy:</strong> The model correctly predicted the
 revenue category for 65% of the properties.</p></li>
 <li><p><strong>Sensitivity:</strong> The model identified above-median
@@ -1688,13 +1688,13 @@ of predictive performance without bias towards either class.</p></li>
 <h1>PCA Construction: Review Score Analysis:</h1>
 <p><strong>Method rationale:</strong> The goal was to simplify the data
 set of Airbnb properties in Canada by reducing its dimensionality while
-retaining critical information. PCA helped to identify key variables
-that affected review scores and other metrics, providing insights into
-factors that drove property performance and informed actionable
-recommendations.</p>
+retaining critical information. A Principal Component Analysis (PCA)
+helped to identify key variables that affected review scores and other
+metrics, providing insights into factors that drove property performance
+and informed actionable recommendations.</p>
 <p><strong>Results:</strong> Review variables were well represented,
-with host acceptance rate strongly correlated with PCA 2 and host is
-superhost in PCA 7.</p>
+with host acceptance rate strongly correlated with PCA 2 and ‘host is
+super host’ in PCA 7.</p>
 <div id="remove-all-categorical-data" class="section level3">
 <h3>1) Remove all categorical data:</h3>
 <p>Removing categorical data ensured that the PCA focused on numerical
@@ -2009,23 +2009,22 @@ more valid.</p></li>
 </div>
 <div id="regression-tree-review-score-analysis" class="section level1">
 <h1>Regression Tree: Review Score Analysis:</h1>
-<p><strong>Model Rationale:</strong> These trees allowed us to visualize
-how different predictor variables affected the overall review rating
-(target variable) and how interactions between variables could influence
-the target variable. By examining the tree structures, I identified key
-factors such as host characteristics, location, and property features
-that were significant predictors of review scores. This analysis helped
-in understanding the drivers behind review ratings and provided
-actionable insights for Airbnb hosts to improve their listings and
-performance. Additionally, the trees’ ability to handle complex
-interactions between variables made them a robust tool for exploring and
-interpreting the data set in a meaningful way.</p>
-<p><strong>Results:</strong> This regression tree revealed that host
-superhost status, room type, and other factors such
-as <code>instant_bookable</code>, <code>host_listings_count</code>,
-and <code>availability_365</code> significantly influenced review
-scores. These insights could guide Airbnb hosts in optimizing their
-properties to enhance review ratings.</p>
+<p><strong>Model Rationale:</strong> Regression trees were used to
+analyze how different predictor variables affect the overall review
+rating (target variable) and to explore the interactions between these
+variables. The tree structure helps visualize key factors influencing
+review scores, such as host characteristics, location, and property
+features. This approach is beneficial for identifying significant
+predictors and understanding how complex interactions between variables
+impact review ratings. The insights gained from this analysis can
+provide actionable recommendations for Airbnb hosts to enhance their
+listings and improve their performance.</p>
+<p><strong>Results:</strong> The regression tree analysis revealed that
+host superhost status, room type, and other factors such as
+instant_bookable, host_listings_count, and availability_365
+significantly influenced review scores. These findings suggest that
+optimizing these factors could lead to better review ratings and
+improved host performance.</p>
 <pre class="r"><code># Define formulas for various models
 formula1 &lt;- review_scores_rating ~ host_is_superhost + host_listings_count + host_identity_verified
 formula2 &lt;- review_scores_rating ~ latitude + longitude + property_type + room_type
@@ -2239,7 +2238,7 @@ comprehensive feedback (McDarris, 2024).</li>
 </div>
 </div>
 <div id="project-limitations" class="section level1">
-<h1>Project Limitations</h1>
+<h1>Project Limitations:</h1>
 <ol style="list-style-type: decimal">
 <li><p><strong>Dynamic Pricing Challenges:</strong> The Airbnb dynamic
 pricing model affects the accuracy of the data analyzed. The ‘price’
