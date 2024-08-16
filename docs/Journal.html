@@ -19,10 +19,6 @@
 
     <!-- Inline CSS -->
     <style>
-        body {
-            padding-top: 70px; /* Adjust this value to match the height of the navbar */
-        }
-
         h1 {
             font-size: 34px;
         }
@@ -146,11 +142,19 @@
         }
 
         @media (max-width: 768px) {
-            #TOC {
-                position: relative;
-                width: 100%;
+            .container-fluid {
+              flex-direction: column; /* Stack elements on smaller screens */
+              .toc-content {
+                margin-left: 0; /* Remove margin on small screens */
+              }
             }
-        }
+          }
+
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* Ensures padding/border doesn't add extra width */
+          }
 
         @media print {
             .toc-content {
@@ -194,43 +198,253 @@
         .tocify .list-group-item {
             border-radius: 0;
         }
-
-        /* Navbar Styles */
-        .navbar {
-            z-index: 1030; /* Ensure navbar is above other elements */
-        }
     </style>
 </head>
 
 <body>
-    <div class="container-fluid main-container">
-        <!-- Navbar -->
-        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="index.html">Airbnb Data Analysis Project Overview</a>
-                </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="Journal.html">Main Analysis</a></li>
-                    </ul>
-                    <ul class="nav navbar-nav navbar-right"></ul>
-                </div><!--/.nav-collapse -->
-            </div><!--/.container -->
-        </div><!--/.navbar -->
+    <div class="main-container">
+        <!-- Your content here -->
 
-        <!-- Main Content -->
-        <div id="header">
-            <h1 class="title toc-ignore">Airbnb Data Analysis Project Overview:</h1>
-            <h4 class="author">Tinu Sorinmade</h4>
-        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+    <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+    <script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+    <script src="site_libs/plotly-binding-4.10.4/plotly.js"></script>
+    <script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+    <script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+    <script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+    <script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+    <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+    <script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+    <!-- Bootstrap and Polyfills -->
+    <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+    <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+    <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script type="text/javascript">
+        if (window.hljs) {
+            hljs.configure({ languages: [] });
+            hljs.initHighlightingOnLoad();
+            if (document.readyState && document.readyState === "complete") {
+                window.setTimeout(function () { hljs.initHighlighting(); }, 0);
+            }
+        }
+
+        $(document).ready(function () {
+            // Manage active state of menu based on current page
+            var href = window.location.pathname;
+            href = href.substr(href.lastIndexOf('/') + 1);
+            if (href === "")
+                href = "index.html";
+            var menuAnchor = $('a[href="' + href + '"]');
+
+            // Mark the anchor link active (and if it's in a dropdown, also mark that active)
+            var dropdown = menuAnchor.closest('li.dropdown');
+            if (window.bootstrap) { // Bootstrap 4+
+                menuAnchor.addClass('active');
+                dropdown.find('> .dropdown-toggle').addClass('active');
+            } else { // Bootstrap 3
+                menuAnchor.parent().addClass('active');
+                dropdown.addClass('active');
+            }
+
+            // Navbar adjustments
+            var navHeight = $(".navbar").first().height() + 15;
+            var style = document.createElement('style');
+            var pt = "padding-top: " + navHeight + "px; ";
+            var mt = "margin-top: -" + navHeight + "px; ";
+            var css = "";
+            // Offset scroll position for anchor links (for fixed navbar)
+            for (var i = 1; i <= 6; i++) {
+                css += ".section h" + i + "{ " + pt + mt + "}\n";
+            }
+            style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+}
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Airbnb Data Analysis Project Overview</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Journal.html">Main Analysis</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
         
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Airbnb Data Analysis Project Overview:</h1>
+<h4 class="author">Tinu Sorinmade</h4>
+
+</div>
+
+
 <p><strong>NOTE:</strong> This file contains scrollable chunks</p>
 <p>As part of a university coursework project, I assumed the role of a
 consultant to analyze the Toronto Airbnb market. My objective was to
