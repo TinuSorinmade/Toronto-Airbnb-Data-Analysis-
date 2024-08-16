@@ -373,7 +373,7 @@ airbnb_new2 <- cbind(airbnb_new, AboveMedianRevenue)
 
 ### 3) Plotting Current Data set Probability ("AboveMedianRevenue"):
 
-I used a pie chart to visualize the proportion of properties meeting or exceeding the median revenue. This visualization provided a clear view of revenue distribution and helped to quickly understand the performance of properties relative to the benchmark.
+I used a pie chart to visualize the proportion of properties meeting or exceeding the median revenue. This visualization provided a clear view of revenue distribution and helped quickly understand the performance of properties relative to the benchmark.
 
 ```{r Current Plot}
 library(plotly)  # Ensure that plotly is loaded
